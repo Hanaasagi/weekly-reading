@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Hanaasagi'
 SITENAME = 'weekly reading'
-SITEURL = ''
+SITEURL = 'https://hanaasagi.github.io/weekly-reading/'
 
 PATH = 'content'
 THEME = 'pelican-themes/pelican-bootstrap3'
