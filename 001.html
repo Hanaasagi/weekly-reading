@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>001 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/001.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="asyncio: A dumpster fire of bad design 本篇文章就是在喷 asyncio，尤其是在写作口吻上。关于 asyncio 还有一篇比较经典的 I don&#39;t understand Python&#39;s Asyncio。之所以放这篇文章，是因为作者所抱怨的地方也可能会是我以后踩到的坑。 Sin 1) 忽视了 generator API Python 的 coroutine 是借助 generator 实现的。所以 asyncio 应当自然而然地使用 generator API 去和 coroutine 进行交互。(作者这里可能是基于 Python 3.4 来说的，PEP 492 引入了 async/await)。 利用 …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="001"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/001.html"/>
+        <meta property="og:description" content="asyncio: A dumpster fire of bad design 本篇文章就是在喷 asyncio，尤其是在写作口吻上。关于 asyncio 还有一篇比较经典的 I don&#39;t understand Python&#39;s Asyncio。之所以放这篇文章，是因为作者所抱怨的地方也可能会是我以后踩到的坑。 Sin 1) 忽视了 generator API Python 的 coroutine 是借助 generator 实现的。所以 asyncio 应当自然而然地使用 generator API 去和 coroutine 进行交互。(作者这里可能是基于 Python 3.4 来说的，PEP 492 引入了 async/await)。 利用 …"/>
+        <meta property="article:published_time" content="2018-05-05" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/001.html"
+                       rel="bookmark"
+                       title="Permalink to 001">
+                        001
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-05-05T00:00:00+08:00"> Sat 05 May 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h3><a href="https://veriny.tf/asyncio-a-dumpster-fire-of-bad-design/">asyncio: A dumpster fire of bad design</a></h3>
+<p>本篇文章就是在喷 asyncio，尤其是在写作口吻上。关于 asyncio 还有一篇比较经典的 <a href="http://lucumr.pocoo.org/2016/10/30/i-dont-understand-asyncio/">I don't understand Python's Asyncio</a>。之所以放这篇文章，是因为作者所抱怨的地方也可能会是我以后踩到的坑。</p>
+<h4>Sin 1) 忽视了 generator API</h4>
+<p>Python 的 coroutine 是借助 generator 实现的。所以 asyncio 应当自然而然地使用 generator API 去和 coroutine 进行交互。(作者这里可能是基于 Python 3.4 来说的，PEP 492 引入了 <code>async</code>/<code>await</code>)。</p>
+<p>利用 generator API，涉及事件循环的异步操作可以通过一系列的 <code>yield</code> 操作。事件循环通过 <code>coro.send</code> 使 coroutine 得到调度，<code>yield</code> 可以再次陷入事件循环中。这便是 coroutine 和 事件循环交互的方式。而 <code>asyncio</code> 中则需要在每处需要用到事件循环的地方显式的传入此对象。比如 <code>sleep</code> 的实现</p>
+<div class="highlight"><pre><span></span><span class="c1"># asyncio/tasks.py</span>
+<span class="nd">@coroutine</span>
+<span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Coroutine that completes after a given time (in seconds).&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">delay</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">yield</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">if</span> <span class="n">loop</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">loop</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="n">future</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">create_future</span><span class="p">()</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">_loop</span><span class="o">.</span><span class="n">call_later</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span>
+                                <span class="n">futures</span><span class="o">.</span><span class="n">_set_result_unless_cancelled</span><span class="p">,</span>
+                                <span class="n">future</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">future</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+</pre></div>
+
+
+<p>如果不传入则会通过 <code>asyncio.get_event_loop</code> 来获取当前的 <code>loop</code> 对象。它是 thread-local 的，所以当你想要在其他线程中去执行时会比较尴尬。</p>
+<p>这在其他语言中可能还好，但是 generator API 的存在正是为了解决这种问题，它可以作为一种通信通道。有一个示例：<a href="https://www.python.org/dev/peps/pep-0342/#examples">PEP 342: 3. A simple co-routine scheduler or trampoline that lets coroutines call other coroutines by yielding the coroutine they wish to invoke.
+</a></p>
+<h4>Sin 2) 糟糕的网络 I/O</h4>
+<p>有三种网络处理方式：</p>
+<ul>
+<li>Streams</li>
+<li>Protocols</li>
+<li>Raw loop functions</li>
+</ul>
+<h5>Streams</h5>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="nd">@asyncio.coroutine</span>
+<span class="k">def</span> <span class="nf">tcp_echo_client</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">loop</span><span class="p">):</span>  
+    <span class="n">reader</span><span class="p">,</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">open_connection</span><span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">8888</span><span class="p">,</span>
+                                                        <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Send: </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Received: </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Close the socket&#39;</span><span class="p">)</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Hello World!&#39;</span>  
+<span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>  
+<span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">tcp_echo_client</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">loop</span><span class="p">))</span>  
+<span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+
+<p>作者的观点大致为：读操作是异步的，写操作是同步的。而且写入失败，<code>asyncio</code> 会丢弃错误，而不是等待写入。通知循环在一段时间后处理它，然后回到代码中。这可能意味着当你读取时，服务器并没有收到你的数据。解决方法是使用 <code>writer.drain()</code>，但为什么要分开成两个 API。</p>
+<h5>Protocols</h5>
+<p>它使用 callback，而且是同步的</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="k">class</span> <span class="nc">EchoClientProtocol</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">Protocol</span><span class="p">):</span>  
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">loop</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="n">loop</span>
+
+    <span class="k">def</span> <span class="nf">connection_made</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transport</span><span class="p">):</span>
+        <span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Data sent: {!r}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">data_received</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Data received: {!r}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">()))</span>
+
+    <span class="k">def</span> <span class="nf">connection_lost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;The server closed the connection&#39;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Stop the event loop&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>  
+<span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Hello World!&#39;</span>  
+<span class="n">coro</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">create_connection</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">EchoClientProtocol</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">loop</span><span class="p">),</span>  
+                              <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">8888</span><span class="p">)</span>
+<span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">coro</span><span class="p">)</span>  
+<span class="n">loop</span><span class="o">.</span><span class="n">run_forever</span><span class="p">()</span>  
+<span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  
+</pre></div>
+
+
+<p>作者观点大致为：同步的函数中无法 <code>await coro</code>。而且这里并不能指定读取多少字节，不够灵活。</p>
+<p>本人认为：如果这里是支持 <code>await coro</code> 的 <code>async def</code> 本身好像就是一个错误的做法。因为无法保证顺序</p>
+<p>同步 callback 下<br>
+- 数据1到来 -&gt; callback1
+- 数据2到来 -&gt; callback2</p>
+<p>异步 callback 下<br>
+- 数据1到来 -&gt; callback1 执行到一半发生 <code>yield</code>
+- 数据2到来 -&gt; callback2 执行到一半发生 <code>yield</code>
+- callback2 条件达成被再次调度，并执行完成
+- callback1 条件达成被再次调度，并执行完成</p>
+<p>这样可能需要进行同步处理</p>
+<p>无法指定读取多少字节的问题，可以通过自己创建 buffer 来解决</p>
+<h4>Sin 3) 线程兼容性</h4>
+<ul>
+<li>一旦你在线程那侧(thread-land)，如果你想与 async 那侧(async-land)进行交互，那就 GG 了</li>
+<li><code>loop.run_in_executor(executor, callable)</code> 中，<code>None</code> 经常作为第一个参数。将它作为一个关键字参数，而不是位置参数的第一个貌似更好</li>
+<li>需要使用 <code>_threadsafe</code> API</li>
+</ul>
+<p>对比 asyncio 的线程支持和 curio 的异步线程。异步线程可以通过 <code>AWAIT</code> 函数和 async-land 进行通信。asyncio 则不提供这种兼容</p>
+<h4>Sin 4) 没有异步文件 I/O</h4>
+<p><a href="https://github.com/Tinche/aiofiles">aiofiles</a> 对此进行了扩充</p>
+<h4>Sin 5) API 设计缺陷</h4>
+<ul>
+<li><code>asyncio</code> 的一些 utils，不需要和 <code>loop</code> 进行绑定，它们应当被放到模块层级中。有一些函数和事件循环进行交互，比如 <code>asyncio.open_connection</code>，它们不应当被放到模块层级。</li>
+<li><code>asyncio.ensure_future</code>，可能会返回一个 Task，并在当前的事件循环上调度</li>
+<li>缺少一个恰当的管理器。<code>gather</code> 和 <code>wait</code> 被设计成了独立的两个</li>
+<li>不能在 <code>as_completed</code> 上使用 <code>async for</code></li>
+</ul>
+<p>目前 Python 异步框架有下面三个阵营</p>
+<ul>
+<li>asyncio</li>
+<li>curio</li>
+<li>trio</li>
+</ul>
+<p>就 GitHub 上的 repo 来说，asyncio 的生态环境还是最好的</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

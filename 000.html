@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>000 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/000.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="Notes on structured concurrency, or: Go statement considered harmful 本文为 Trio 作者对于并发 API 的一点看法，并阐述了 Trio 为什么有一个 nurseries 的概念 对于 Golang 的 go 关键字及与其相似的 API 来说，它具有一下缺点： - 破坏抽象：当我们调用一个函数时，它可能创建了一个 goroutine。函数看起来返回了，但是还有任务在后台执行。这种行为破坏了黑盒原则 - 影响自动资源释放：比如 Python 的 with open(&#34;my-file&#34;) as file_handle: 能够确保在整个 block 执行完后，对资源进行挥手。但是如果在这个 block 中创建了一个后台任务 …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="000"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/000.html"/>
+        <meta property="og:description" content="Notes on structured concurrency, or: Go statement considered harmful 本文为 Trio 作者对于并发 API 的一点看法，并阐述了 Trio 为什么有一个 nurseries 的概念 对于 Golang 的 go 关键字及与其相似的 API 来说，它具有一下缺点： - 破坏抽象：当我们调用一个函数时，它可能创建了一个 goroutine。函数看起来返回了，但是还有任务在后台执行。这种行为破坏了黑盒原则 - 影响自动资源释放：比如 Python 的 with open(&#34;my-file&#34;) as file_handle: 能够确保在整个 block 执行完后，对资源进行挥手。但是如果在这个 block 中创建了一个后台任务 …"/>
+        <meta property="article:published_time" content="2018-04-30" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/000.html"
+                       rel="bookmark"
+                       title="Permalink to 000">
+                        000
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-04-30T00:00:00+08:00"> Mon 30 April 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h3><a href="https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/">Notes on structured concurrency, or: Go statement considered harmful</a></h3>
+<p>本文为 Trio 作者对于并发 API 的一点看法，并阐述了 Trio 为什么有一个 nurseries 的概念<br>
+对于 Golang 的 go 关键字及与其相似的 API 来说，它具有一下缺点：
+- 破坏抽象：当我们调用一个函数时，它可能创建了一个 goroutine。函数看起来返回了，但是还有任务在后台执行。这种行为破坏了黑盒原则
+- 影响自动资源释放：比如 Python 的 <code>with open("my-file") as file_handle:</code> 能够确保在整个 block 执行完后，对资源进行挥手。但是如果在这个 block 中创建了一个后台任务，<code>with</code> 不能保证在资源清理时后台任务已经结束，我们可能会面临使用一个被释放资源的危险
+- 对异常处理并不友好：现代语言提供了异常处理机制，当异常发生时可以选择捕获或者向调用者进行传播。但对于新线程来说它应该将异常传递给谁，这是一个问题。目前大部分做法是向控制台打印错误，然后线程结束。另外 JavaScript 提供了 <code>Promise.catch</code> 的机制来捕获异常，但这和语言自身的异常处理似乎有些冗余。补充一点 <code>asyncio</code> 里，如果一个 <code>Task</code> 抛出了异常。<code>await task</code> 时会向外传播，也就是说异常不是传给创建这个 <code>Task</code> 的人，而是想要获取 <code>Task</code> 结果的人。如果没人想要获取这个结果，那么在结束时会打印一个 <code>Task exception was never retrieved</code> 的消息</p>
+<p>Trio 的设计别具一格，它有一个 <code>nurseries</code>(托儿所)来管理所有创建的并发任务</p>
+<div class="highlight"><pre><span></span><span class="n">async</span> <span class="k">with</span> <span class="n">trio</span><span class="o">.</span><span class="n">open_nursery</span><span class="p">()</span> <span class="k">as</span> <span class="n">nursery</span><span class="p">:</span>
+    <span class="n">nursery</span><span class="o">.</span><span class="n">start_soon</span><span class="p">(</span><span class="n">myfunc</span><span class="p">)</span>
+    <span class="n">nursery</span><span class="o">.</span><span class="n">start_soon</span><span class="p">(</span><span class="n">anotherfunc</span><span class="p">)</span>
+</pre></div>
+
+
+<p><code>myfunc</code> 和 <code>anotherfunc</code> 都在 <code>nursery</code> 的控制之下。只有所有的任务都执行完，这个 block 才会结束，保证了资源回收的正常工作。当然有些情况下我们需要一些 fire-forget 的后台任务，Trio 也能够做到。如果某个任务抛出异常，<code>nursery</code> 会接收到，如果想要继续向外层抛出，<code>nursery</code> 会首先停下所有的并发任务然后才去做这件事情</p>
+<h3><a href="http://glyph.twistedmatrix.com/2014/02/unyielding.html">Unyielding</a></h3>
+<p>作者首先表明了自己的立场 “Threads Are Bad”，因为 shared state 会增加我们的脑力负担。提出了下面四种替代方案：</p>
+<ul>
+<li>Straight callbacks: Twisted’s <code>IProtocol</code>, JavaScript’s <code>on&lt;foo&gt;</code> idiom, where you give a callback to something which will call it later and then return control to something (usually a main loop) which will execute those callbacks,</li>
+<li>“Managed” callbacks, or Futures: Twisted’s <code>Deferred</code>, JavaScript’s <code>Promises/A[+]</code>, <a href="http://www.erights.org/talks/promises/">E’s Promises</a>, where you create a dedicated result-that-will-be-available-in-the-future object and return it for the caller to add callbacks to,</li>
+<li>Explicit coroutines: Twisted’s <code>@inlineCallbacks</code>, Tulip’s <code>yield from</code> coroutines, C#’s <code>async/await</code>, where you have a syntactic feature that explicitly suspends the current routine,</li>
+<li>and finally, implicit coroutines: <a href="http://en.wikipedia.org/wiki/Green_threads#Green_threads_in_the_Java_virtual_machine">Java’s “green threads”</a>, Twisted’s <a href="https://github.com/radix/corotwine">Corotwine</a>, <a href="https://pypi.python.org/pypi/eventlet">eventlet</a>, <a href="https://pypi.python.org/pypi/gevent">gevent</a>, where any function may switch the entire stack of the current thread of control by calling a function which suspends it.</li>
+</ul>
+<p>前三种我们能够看到显式的调度，而第四种隐式协程其实是线程的伪装，它可能给你埋坑。当我们将代码修改成基于 green thread 的版本时，可能根本不需要去修改代码。但是我们需要熟悉何时会发生切换，以及我们代码原来是怎么写的。作者在此举了一个在转账代码上添加一个通过 Network I/O 的输出日志的例子。而显式的 <code>yield</code> 需要我们去修改源代码，不过这会让我们清晰的认识到是否应该在此发生切换。就如同 Zen of Python 所言：Explicit is better than implicit.</p>
+<blockquote>
+<p>So don’t be fooled: a thread is a thread regardless of its color. If you want your program to be supple and resilient in the face of concurrency, when the storm of concurrency blows, allow it to change. Tell it to yield, just like the reed. Otherwise, just like the steadfast and unchanging oak tree in the storm, your steadfast and unchanging algorithms will break right in half.</p>
+</blockquote>
+<p>其实，在解决并发问题上并没有捷径</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
