@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading">
+        <meta name="author" content="Hanaasagi" />
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="weekly reading"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading"/>
+        <meta property="og:description" content="weekly reading"/>
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/003.html">003</a></h2>
+                <div class="summary"><h3><a href="https://github.com/django/asgiref/blob/master/specs/asgi.rst">ASGI (Asynchronous Server Gateway Interface) Specification</a></h3>
+<p>需要注意，我阅读的是 Version: 2.0 (2017-11-28)。ASGI 在先前版本是有一个 channel 层的，现在被拿到外面去了。上一个版本有 <a href="https://blog.ernest.me/post/asgi-draft-spec-zh">中文翻译</a></p>
+<h4>目的</h4>
+<p>ASGI 的目的是提出一种规范，用于处理 Web 服务器和 Python 应用程序间的多种常见协议格式(HTTP，HTTP/2，WebSocket)</p>
+<h4>依据</h4>
+<p>WSGI 为 Python 框架和 Web Server 的选择提供了极大的灵活性。然而它的设计与 HTTP 的请求和响应绑在了一起。目前一些非此格式的协议也逐渐占领重要的地位，比如 WebSocket。ASGI 尝试去保留一个极简的应用接口。但提供一个能够从不同应用线程/进程随时发送/接收数据的抽象 …</p>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/003.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/002.html">002</a></h2>
+                <div class="summary"><p>作为一个码农，不能理解程序员口中的</p>
+<ul>
+<li>微服务化是趋势</li>
+<li>区块链开创未来</li>
+<li>前后端分离是历史的选择</li>
+</ul>
+<h3><a href="https://martinfowler.com/articles/microservices.html">Microservices</a></h3>
+<p>Martin Fowler 所写，此文有两个版本的中译。建议全文阅读。</p>
+<h3><a href="https://dzone.com/articles/microservices-the-good-the-bad-and-the-ugly">Microservices: The Good, the Bad, and the Ugly</a></h3>
+<p>这篇文章被转的到处都是</p>
+<h4>The Good</h4>
+<ul>
+<li>能以高效的方式轻松扩展</li>
+<li>不存在单点故障</li>
+<li>在不影响整个应用程序完整性的情况下下线，重构或重写</li>
+<li>针对不同服务的需求，选择最佳的语言和框架</li>
+<li>简单且离散</li>
+<li>轻松满足现代 PaaS 和 SaaS 环境的需求</li>
+</ul>
+<p>对于第二条说的就跟 monolithic 应用存在单点故障一样，有没有单点和微服务好像没有什么关系吧</p>
+<h4>The Bad</h4>
+<ul>
+<li>由于需要维护基于微服务的应用及组件所需的专业知识，因此变得更复杂</li>
+<li>如果应用不需要扩展或者不是 cloud-based，基于微服务的架构可能不会带来任何有意义的好处</li>
+<li>No greenfield options because microservices …</li></ul>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/002.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/001.html">001</a></h2>
+                <div class="summary"><h3><a href="https://veriny.tf/asyncio-a-dumpster-fire-of-bad-design/">asyncio: A dumpster fire of bad design</a></h3>
+<p>本篇文章就是在喷 asyncio，尤其是在写作口吻上。关于 asyncio 还有一篇比较经典的 <a href="http://lucumr.pocoo.org/2016/10/30/i-dont-understand-asyncio/">I don't understand Python's Asyncio</a>。之所以放这篇文章，是因为作者所抱怨的地方也可能会是我以后踩到的坑。</p>
+<h4>Sin 1) 忽视了 generator API</h4>
+<p>Python 的 coroutine 是借助 generator 实现的。所以 asyncio 应当自然而然地使用 generator API 去和 coroutine 进行交互。(作者这里可能是基于 Python 3.4 来说的，PEP 492 引入了 <code>async</code>/<code>await</code>)。</p>
+<p>利用 …</p>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/001.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/000.html">000</a></h2>
+                <div class="summary"><h3><a href="https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/">Notes on structured concurrency, or: Go statement considered harmful</a></h3>
+<p>本文为 Trio 作者对于并发 API 的一点看法，并阐述了 Trio 为什么有一个 nurseries 的概念<br>
+对于 Golang 的 go 关键字及与其相似的 API 来说，它具有一下缺点：
+- 破坏抽象：当我们调用一个函数时，它可能创建了一个 goroutine。函数看起来返回了，但是还有任务在后台执行。这种行为破坏了黑盒原则
+- 影响自动资源释放：比如 Python 的 <code>with open("my-file") as file_handle:</code> 能够确保在整个 block 执行完后，对资源进行挥手。但是如果在这个 block 中创建了一个后台任务 …</p>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/000.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev"><a href="https://hanaasagi.github.io/weekly-reading/index.html">&laquo;</a>
+                </li>
+                    <li class=""><a
+                            href="https://hanaasagi.github.io/weekly-reading/index.html">1</a></li>
+                    <li class="active"><a
+                            href="https://hanaasagi.github.io/weekly-reading/index2.html">2</a></li>
+                <li class="next disabled"><a href="#">&raquo;</a></li>
+        </ul>
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Articles by Hanaasagi - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+        <meta name="author" content="Hanaasagi" />
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="weekly reading"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading"/>
+        <meta property="og:description" content="weekly reading"/>
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/013.html">013</a></h2>
+                <div class="summary"><blockquote>
+<p>You shouldn’t mock an API (verb), instead you create a mock (noun) that implements a given API.</p>
+</blockquote>
+<h2><a href="http://blog.plataformatec.com.br/2015/10/mocks-and-explicit-contracts/">Mocks and explicit contracts</a></h2>
+<p>最简单的例子是访问外部 API</p>
+<div class="highlight"><pre><span></span><span class="kd">defmodule</span> <span class="nc">MyApp.MyController</span> <span class="k">do</span>
+  <span class="kd">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&quot;username&quot;</span> <span class="o">=&gt;</span> <span class="n">username</span><span class="p">})</span> <span class="k">do</span>
+    <span class="c1"># ...</span>
+    <span class="nc">MyApp.TwitterClient</span><span class="o">.</span><span class="n">get_username</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+    <span class="c1"># ...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>在测试中一般通过 mock <code>MyApp.TwitterClient</code> 所使用的 <code>HTTPClient</code> 来解决</p>
+<div class="highlight"><pre><span></span><span class="n">mock</span><span class="p">(</span><span class="nc">HTTPClient</span><span class="p">,</span> <span class="ss">:get …</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/013.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/012.html">012</a></h2>
+                <div class="summary"><p>Strip 的滚动 API 设计经验</p>
+<h2><a href="https://stripe.com/blog/api-versioning">APIs as infrastructure: future-proofing Stripe with versioning</a></h2>
+<p>如果某个 API 返回一个名为 <code>verified</code> 的 <code>boolean</code> 类型字段来表示账户状态，那么用户可能会编写出如下的代码</p>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">bank_account</span><span class="o">[</span><span class="ss">:verified</span><span class="o">]</span>
+  <span class="o">...</span>
+<span class="k">else</span>
+  <span class="o">...</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>但假如在后续迭代中将 <code>verified</code> 替换为包含 <code>verified</code> 的 <code>status</code> 字段，那么便会影响用户之前所写的代码。这种类型的改变称为 "backwards-incompatible"。为了避免这种情况，之前存在的字段应该继续存在且保持相同的类型和名称。显然这对开发并不友好，但如果要用户更新他们的代码则又需要经过足够的协商</p>
+<p>通常的方法是使用版本控制，<code>v1</code>、<code>v2</code>、<code>v3</code> 作为前缀添加在 URL 中或者 HTTP <code>ACCEPT</code> 首部中。OK 还行 …</p>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/012.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/011.html">011</a></h2>
+                <div class="summary"><p>关于 <code>/dev/urandom</code></p>
+<h2><a href="https://www.2uo.de/myths-about-urandom">Myths about /dev/urandom</a></h2>
+<blockquote>
+<p>If you are unsure about whether you should use <code>/dev/random</code> or <code>/dev/urandom</code>, then probably you want to use the latter. As a general rule, /dev/urandom should be used for everything except long-lived GPG/SSL/SSH keys.</p>
+</blockquote>
+<p>引用自 <code>man 4 unrandom …</code></p>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/011.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/010.html">010</a></h2>
+                <div class="summary"><h2><a href="http://man7.org/linux/man-pages/man5/proc.5.html">PROC(5)</a></h2>
+<p><code>/proc</code> 是 Linux 下的一个特殊目录，目录中的文件大部分都是 0 字节(<code>kcore</code> 便是例外)，但是如果通过 <code>cat</code> 命令查看则会返回大量的信息。这个目录中包含一系列以数字命名的子目录，这些数字便是当前系统中运行的进程的 PID，以及一些如 <code>net</code>、<code>fs</code> 等包含某个类别数据的目录。除此之外还有一些比较零散的文件，下面简要地分析这些文件的作用</p>
+<ul>
+<li><a href="#procbuddyinfo"><code>/proc/buddyinfo</code></a></li>
+<li><a href="#proccgroups"><code>/proc/cgroups</code></a></li>
+<li><a href="#proccmdline"><code>/proc/cmdline</code></a></li>
+<li><a href="#proccpuinfo"><code>/proc/cpuinfo</code></a></li>
+<li><a href="#proccrypto"><code>/proc/crypto</code></a></li>
+<li><a href="#procdevices"><code>/proc/devices</code></a></li>
+<li><a href="#procdiskstats"><code>/proc/diskstats</code></a></li>
+<li><a href="#procfb"><code>/proc/fb</code></a></li>
+<li><a href="#procfilesystems"><code>/proc/filesystems</code></a></li>
+<li><a href="#procinterrupts"><code>/proc/interrupts</code></a></li>
+<li><a href="#prociomem"><code>/proc/iomem</code></a></li>
+<li><a href="#procioports"><code>/proc/ioports</code></a></li>
+<li><a href="#prockcore"><code>/proc/kcore</code></a></li>
+<li><a href="#prockmsg"><code>/proc …</code></a></li></ul>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/010.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/009.html">009</a></h2>
+                <div class="summary"><h2><a href="https://www.youtube.com/watch?v=BUjcS4q86jQ">Cassandra 内部原理和底层实现</a></h2>
+<h3>Centralized database</h3>
+<p>单机处理能力不够:</p>
+<ul>
+<li>计算能力</li>
+<li>存储量</li>
+</ul>
+<h3>Distributed database</h3>
+<h4>Partitioning</h4>
+<p>几种策略:</p>
+<ul>
+<li><a href="https://dev.mysql.com/doc/mysql-partitioning-excerpt/5.7/en/partitioning-range.html">Range Partition</a>: 根据范围进行分片，比如 <code>North:1~1000</code>，<code>East:1000~2000</code></li>
+<li><a href="https://dev.mysql.com/doc/mysql-partitioning-excerpt/5.7/en/partitioning-list.html">List Partition</a>: 和 Range Partition 相似，不过是定义几个包含不同 id 的分区列表 <code>North:[3, 5, 6, 9, 17]</code>，<code>East:[1, 2, 10, 11, 19, 20]</code></li>
+<li>Hash Partition: 根据 key 的 Hash 结果进行分片 …</li></ul>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/009.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/008.html">008</a></h2>
+                <div class="summary"><p><code>ip</code> 和 <code>ss</code> 命令的使用</p>
+<h2><a href="https://linux.die.net/man/8/ip">ip(8)</a></h2>
+<p><code>ip</code> 命令能够显示/操作路由、网络设备、接口和隧道等。若机器上不存在 <code>ip</code> 命令，则需要安装 <code>iproute2</code></p>
+<p><code>iproute2</code> 提供了一系列用于替换 <code>net-tools</code> 的命令，一个简单的对比如下</p>
+<table>
+<thead>
+<tr>
+<th>iproute2</th>
+<th>net-tools</th>
+<th>meaing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ip addr</td>
+<td>ifconfig -a</td>
+<td>显示所有地址信息</td>
+</tr>
+<tr>
+<td>ip link set eth0 down</td>
+<td>ifconfig eth0 down</td>
+<td>停止网络接口</td>
+</tr>
+<tr>
+<td>ip link set eth0 up</td>
+<td>ifconfig eth0 up</td>
+<td>激活网络接口</td>
+</tr>
+<tr>
+<td>ip addr add …</td></tr></tbody></table>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/008.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/007.html">007</a></h2>
+                <div class="summary"><p>本周关注 Python 的命令行参数与环境变量，大体是在翻译文档。版本为 Python 3.7.0</p>
+<h2><a href="https://docs.python.org/3/using/cmdline.html">Python Command line and environment</a></h2>
+<h3>Command line</h3>
+<h4>Interface options</h4>
+<ul>
+<li>
+<p><code>-c &lt;command&gt;</code> 执行 command 中的 Python 代码，command 可以是一个或者多个由换行符分隔的语句，与正常代码一样前导空白符是具有意义的。指定此参数后，<code>sys.argv</code> 的第一个元素将是 <code>-c</code>，并且当前目录会被添加至 <code>sys.path</code> 的开头</p>
+</li>
+<li>
+<p><code>-m &lt;module-name&gt;</code> 从 <code>sys.path</code> 中搜索指定名称的模块，然后作为 <code>__main__</code> 执行。因为参数是模块的名称，所以不需要提供文件扩展名 <code>.py</code>。模块的名称应当是合法的 …</p></li></ul>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/007.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/006.html">006</a></h2>
+                <div class="summary"><p>:tada: Python 3.7.0 在本周发布了 :tada:</p>
+<h2><a href="https://docs.python.org/3.7/whatsnew/3.7.html">What’s New In Python 3.7</a></h2>
+<h3>Syntax changes</h3>
+<p><code>async</code> 和 <code>await</code> 成为关键字</p>
+<div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">keyword</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">keyword</span><span class="o">.</span><span class="n">iskeyword</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;async&#39;</span><span class="p">,</span> <span class="s1">&#39;await&#39;</span><span class="p">)))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="bp">True</span>
+</pre></div>
+
+
+<h3><code>dict</code> 对象保持插入顺序的特性已经被声明为 Python 语言规范的一部分</h3>
+<h3>New Features</h3>
+<h4><a href="https://www.python.org/dev/peps/pep-0563/">PEP 563</a> - Postponed Evaluation of Annotations</h4>
+<p>推迟了注解的求值时间，解决了下面的两个问题:</p>
+<ul>
+<li>注解只能使用当前作用域中已经存在的名称 …</li></ul>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/006.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/005.html">005</a></h2>
+                <div class="summary"><p>本周为 CNM(Container Network Model) 和 CNI(Container Network Interface)。Kubernetes 采用的是 CNI</p>
+<h3><a href="https://github.com/docker/libnetwork/blob/master/docs/design.md">libnetwork design</a></h3>
+<blockquote>
+<p>The goal of libnetwork is to deliver a robust Container Network Model that provides a consistent programming interface and the required network abstractions for applications.</p>
+</blockquote>
+<p>libnetwork 实现了 CNM。它为 Docker daemon 和网络驱动程序之间提供了接口。网络控制器(NetworkController)负责将驱动 …</p>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/005.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/004.html">004</a></h2>
+                <div class="summary"><p>本周依旧围绕 PyCon 2018 的视频</p>
+<h3><a href="https://www.youtube.com/watch?v=0c46YHS3RY8">Clearer Code at Scale: Static Types at Zulip and Dropbox</a></h3>
+<p>本演讲的主题是通过 static types 使 code 变得 clearer</p>
+<p>演讲者为 Greg Price，曾在 Dropbox 和 Zulip 工作</p>
+<p>视频的 <a href="https://youtu.be/0c46YHS3RY8?t=4m16s">4:16</a> 中解释了为什么需要 static types</p>
+<h4>Work incrementally</h4>
+<p>添加 static types 是一个渐进的过程，从新写的文件/函数开始做起</p>
+<h4>Define a clean build</h4>
+<p>CI 中添加 mypy …</p>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/004.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a
+                            href="https://hanaasagi.github.io/weekly-reading/author/hanaasagi.html">1</a></li>
+                    <li class=""><a
+                            href="https://hanaasagi.github.io/weekly-reading/author/hanaasagi2.html">2</a></li>
+                <li class="next"><a
+                        href="https://hanaasagi.github.io/weekly-reading/author/hanaasagi2.html">&raquo;</a></li>
+        </ul>
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

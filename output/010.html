@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>010 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/010.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="PROC(5) /proc 是 Linux 下的一个特殊目录，目录中的文件大部分都是 0 字节(kcore 便是例外)，但是如果通过 cat 命令查看则会返回大量的信息。这个目录中包含一系列以数字命名的子目录，这些数字便是当前系统中运行的进程的 PID，以及一些如 net、fs 等包含某个类别数据的目录。除此之外还有一些比较零散的文件，下面简要地分析这些文件的作用 /proc/buddyinfo /proc/cgroups /proc/cmdline /proc/cpuinfo /proc/crypto /proc/devices /proc/diskstats /proc/fb /proc/filesystems /proc/interrupts /proc/iomem /proc/ioports /proc/kcore /proc …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="010"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/010.html"/>
+        <meta property="og:description" content="PROC(5) /proc 是 Linux 下的一个特殊目录，目录中的文件大部分都是 0 字节(kcore 便是例外)，但是如果通过 cat 命令查看则会返回大量的信息。这个目录中包含一系列以数字命名的子目录，这些数字便是当前系统中运行的进程的 PID，以及一些如 net、fs 等包含某个类别数据的目录。除此之外还有一些比较零散的文件，下面简要地分析这些文件的作用 /proc/buddyinfo /proc/cgroups /proc/cmdline /proc/cpuinfo /proc/crypto /proc/devices /proc/diskstats /proc/fb /proc/filesystems /proc/interrupts /proc/iomem /proc/ioports /proc/kcore /proc …"/>
+        <meta property="article:published_time" content="2018-08-07" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/010.html"
+                       rel="bookmark"
+                       title="Permalink to 010">
+                        010
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-08-07T00:00:00+08:00"> Tue 07 August 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2><a href="http://man7.org/linux/man-pages/man5/proc.5.html">PROC(5)</a></h2>
+<p><code>/proc</code> 是 Linux 下的一个特殊目录，目录中的文件大部分都是 0 字节(<code>kcore</code> 便是例外)，但是如果通过 <code>cat</code> 命令查看则会返回大量的信息。这个目录中包含一系列以数字命名的子目录，这些数字便是当前系统中运行的进程的 PID，以及一些如 <code>net</code>、<code>fs</code> 等包含某个类别数据的目录。除此之外还有一些比较零散的文件，下面简要地分析这些文件的作用</p>
+<ul>
+<li><a href="#procbuddyinfo"><code>/proc/buddyinfo</code></a></li>
+<li><a href="#proccgroups"><code>/proc/cgroups</code></a></li>
+<li><a href="#proccmdline"><code>/proc/cmdline</code></a></li>
+<li><a href="#proccpuinfo"><code>/proc/cpuinfo</code></a></li>
+<li><a href="#proccrypto"><code>/proc/crypto</code></a></li>
+<li><a href="#procdevices"><code>/proc/devices</code></a></li>
+<li><a href="#procdiskstats"><code>/proc/diskstats</code></a></li>
+<li><a href="#procfb"><code>/proc/fb</code></a></li>
+<li><a href="#procfilesystems"><code>/proc/filesystems</code></a></li>
+<li><a href="#procinterrupts"><code>/proc/interrupts</code></a></li>
+<li><a href="#prociomem"><code>/proc/iomem</code></a></li>
+<li><a href="#procioports"><code>/proc/ioports</code></a></li>
+<li><a href="#prockcore"><code>/proc/kcore</code></a></li>
+<li><a href="#prockmsg"><code>/proc/kmsg</code></a></li>
+<li><a href="#procloadavg"><code>/proc/loadavg</code></a></li>
+<li><a href="#proclocks"><code>/proc/locks</code></a></li>
+<li><a href="#procmeminfo"><code>/proc/meminfo</code></a></li>
+<li><a href="#procmodules"><code>/proc/modules</code></a></li>
+<li><a href="#procmounts"><code>/proc/mounts</code></a></li>
+<li><a href="#procpartitions"><code>/proc/partitions</code></a></li>
+<li><a href="#procslabinfo"><code>/proc/slabinfo</code></a></li>
+<li><a href="#procsoftirqs"><code>/proc/softirqs</code></a></li>
+<li><a href="#procstat"><code>/proc/stat</code></a></li>
+<li><a href="#procswaps"><code>/proc/swaps</code></a></li>
+<li><a href="#procsysrqtrigger"><code>/proc/sysrq-trigger</code></a></li>
+<li><a href="#procuptime"><code>/proc/uptime</code></a></li>
+<li><a href="#procversion"><code>/proc/version</code></a></li>
+<li><a href="#procvmstat"><code>/proc/vmstat</code></a></li>
+<li><a href="#proczoneinfo"><code>/proc/zoneinfo</code></a></li>
+</ul>
+<h4><code>/proc/buddyinfo</code></h4>
+<p>此文件用于诊断内存碎片问题。通过 buddy 算法把所有空闲的内存，以 2 的幂次的形式，分成 11 个块链表，分别对应为 1、2、4、8、16、32、64、128、256、512、1024 个页块。比如下面的输出，以 DMA 行为例，可用的单页块的大小为 <code>7*(2^0)*PAGE_SIZE</code>，可用的双页块的大小为 <code>7*(2^1)*PAGE_SIZE</code>，可用的三页块的大小为 <code>1*(2^2)*PAGE_SIZE</code></p>
+<div class="highlight"><pre><span></span>➜  cat /proc/buddyinfo
+Node <span class="m">0</span>, zone      DMA      <span class="m">7</span>      <span class="m">7</span>      <span class="m">1</span>      <span class="m">2</span>     ...
+Node <span class="m">0</span>, zone    DMA32  <span class="m">25521</span>  <span class="m">11964</span>   <span class="m">2432</span>    <span class="m">831</span>     ...
+Node <span class="m">0</span>, zone   Normal   <span class="m">7437</span>   <span class="m">3970</span>    <span class="m">533</span>    <span class="m">152</span>     ...
+</pre></div>
+
+
+<p>哦，这样的计算实在是对我太残忍了。存在一个更好的方法</p>
+<div class="highlight"><pre><span></span>➜  <span class="nb">echo</span> m &gt; /proc/sysrq-trigger  <span class="c1"># 向 /var/log/messages 中 dump 内存信息</span>
+➜  tail -f /var/log/messages  <span class="c1"># 另一个 terminal</span>
+</pre></div>
+
+
+<p>对应的输出部分如下</p>
+<div class="highlight"><pre><span></span>Aug  <span class="m">1</span> <span class="m">22</span>:10:00 debian kernel: <span class="o">[</span> <span class="m">5550</span>.805132<span class="o">]</span> Node <span class="m">0</span> DMA: <span class="m">7</span>*4kB <span class="o">(</span>UEM<span class="o">)</span> <span class="m">7</span>*8kB <span class="o">(</span>UEM<span class="o">)</span> <span class="m">1</span>*16kB <span class="o">(</span>U<span class="o">)</span> <span class="m">2</span>*32kB <span class="o">(</span>UE<span class="o">)</span>
+Aug  <span class="m">1</span> <span class="m">22</span>:10:00 debian kernel: <span class="o">[</span> <span class="m">5550</span>.805149<span class="o">]</span> Node <span class="m">0</span> DMA32: <span class="m">105</span>*4kB <span class="o">(</span>UEM<span class="o">)</span> <span class="m">3896</span>*8kB <span class="o">(</span>UEM<span class="o">)</span> <span class="m">2411</span>*16kB <span class="o">(</span>UEM<span class="o">)</span>
+Aug  <span class="m">1</span> <span class="m">22</span>:10:00 debian kernel: <span class="o">[</span> <span class="m">5550</span>.805162<span class="o">]</span> Node <span class="m">0</span> Normal: <span class="m">126</span>*4kB <span class="o">(</span>UEM<span class="o">)</span> <span class="m">3202</span>*8kB <span class="o">(</span>UEM<span class="o">)</span> <span class="m">791</span>*16kB <span class="o">(</span>UEM<span class="o">)</span>
+</pre></div>
+
+
+<blockquote>
+<p>The DMA row references the first 16 MB on a system, the HighMem row references all memory greater than 4 GB on a system, and the Normal row references all memory in between.</p>
+</blockquote>
+<h4><code>/proc/cgroups</code></h4>
+<p>参考 <code>man 7 cgroups</code></p>
+<div class="highlight"><pre><span></span>➜  cat /proc/cgroups
+<span class="c1">#subsys_name    hierarchy   num_cgroups enabled</span>
+cpuset  <span class="m">2</span>   <span class="m">1</span>   <span class="m">1</span>
+cpu <span class="m">3</span>   <span class="m">1</span>   <span class="m">1</span>
+cpuacct <span class="m">3</span>   <span class="m">1</span>   <span class="m">1</span>
+memory  <span class="m">0</span>   <span class="m">1</span>   <span class="m">0</span>
+devices <span class="m">4</span>   <span class="m">82</span>  <span class="m">1</span>
+freezer <span class="m">5</span>   <span class="m">1</span>   <span class="m">1</span>
+net_cls <span class="m">6</span>   <span class="m">1</span>   <span class="m">1</span>
+blkio   <span class="m">7</span>   <span class="m">1</span>   <span class="m">1</span>
+perf_event  <span class="m">8</span>   <span class="m">1</span>   <span class="m">1</span>
+net_prio    <span class="m">6</span>   <span class="m">1</span>   <span class="m">1</span>
+</pre></div>
+
+
+<h4><code>/proc/cmdline</code></h4>
+<p>启动时向 Kernel 传递的参数</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/cmdline
+<span class="nv">BOOT_IMAGE</span><span class="o">=</span>/boot/vmlinuz-3.16.0-6-amd64 <span class="nv">root</span><span class="o">=</span><span class="nv">UUID</span><span class="o">=</span>fb653b15-8e21-4721-925f-3757a73c42fb ro quiet
+</pre></div>
+
+
+<h4><code>/proc/cpuinfo</code></h4>
+<p>如文件名所描述，返回机器的 CPU 信息</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/cpuinfo
+processor   : <span class="m">0</span>
+vendor_id   : GenuineIntel
+cpu family  : <span class="m">6</span>
+model       : <span class="m">69</span>
+model name  : Intel<span class="o">(</span>R<span class="o">)</span> Core<span class="o">(</span>TM<span class="o">)</span> i5-4210U CPU @ <span class="m">1</span>.70GHz
+stepping    : <span class="m">1</span>
+microcode   : 0x17
+cpu MHz     : <span class="m">2505</span>.562
+cache size  : <span class="m">3072</span> KB
+physical id : <span class="m">0</span>
+siblings    : <span class="m">4</span>
+core id     : <span class="m">0</span>
+cpu cores   : <span class="m">2</span>
+apicid      : <span class="m">0</span>
+initial apicid  : <span class="m">0</span>
+fpu     : yes
+fpu_exception   : yes
+cpuid level : <span class="m">13</span>
+wp      : yes
+flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat epb xsaveopt pln pts dtherm invpcid_single tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
+bogomips    : <span class="m">4788</span>.99
+clflush size    : <span class="m">64</span>
+cache_alignment : <span class="m">64</span>
+address sizes   : <span class="m">39</span> bits physical, <span class="m">48</span> bits virtual
+power management:
+</pre></div>
+
+
+<p>可以通过此文件获取 CPU 个数及核心数目</p>
+<div class="highlight"><pre><span></span><span class="c1"># 查看物理 CPU 个数</span>
+➜  cat /proc/cpuinfo<span class="p">|</span> grep <span class="s2">&quot;physical id&quot;</span><span class="p">|</span> sort<span class="p">|</span> uniq<span class="p">|</span> wc -l
+<span class="m">1</span>
+<span class="c1"># 查看每个物理 CPU 的核数</span>
+➜  cat /proc/cpuinfo<span class="p">|</span> grep <span class="s2">&quot;cpu cores&quot;</span><span class="p">|</span> uniq
+<span class="m">2</span>
+<span class="c1"># 查看逻辑 CPU 个数</span>
+➜  cat /proc/cpuinfo<span class="p">|</span> grep <span class="s2">&quot;processor&quot;</span><span class="p">|</span> wc -l
+<span class="m">4</span>
+</pre></div>
+
+
+<h4><code>/proc/crypto</code></h4>
+<p>此文件列出了 Linux 内核使用的所有已安装的密码算法及详细信息</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/crypto
+name         : aes
+driver       : aes-generic
+module       : kernel
+priority     : <span class="m">100</span>
+refcnt       : <span class="m">1</span>
+selftest     : passed
+<span class="nb">type</span>         : cipher
+blocksize    : <span class="m">16</span>
+min keysize  : <span class="m">16</span>
+max keysize  : <span class="m">32</span>
+...
+</pre></div>
+
+
+<h4><code>/proc/devices</code></h4>
+<p>包含当前配置的各种 Character devices 和 Block devices(不包含未加载的模块)</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/devices
+Character devices:
+  <span class="m">1</span> mem
+  <span class="m">4</span> /dev/vc/0
+...
+
+Block devices:
+  <span class="m">2</span> fd
+...
+</pre></div>
+
+
+<p>Character devices are similar to block devices, except for two basic differences:</p>
+<ul>
+<li>
+<p>Character devices do not require buffering. Block devices have a buffer available, allowing them to order requests before addressing them. This is important for devices designed to store information — such as hard drives — because the ability to order the information before writing it to the device allows it to be placed in a more efficient order.</p>
+</li>
+<li>
+<p>Character devices send data with no preconfigured size. Block devices can send and receive information in blocks of a size configured per device.</p>
+</li>
+</ul>
+<h4><code>/proc/diskstats</code></h4>
+<p>每块磁盘的 I/O 统计信息列表</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/diskstats
+<span class="m">254</span>       <span class="m">0</span> vda <span class="m">66794</span> <span class="m">18</span> <span class="m">862890</span> <span class="m">84850</span> <span class="m">600867</span> <span class="m">135646</span> <span class="m">6607008</span> <span class="m">408180</span> <span class="m">0</span> <span class="m">59664</span> <span class="m">474934</span>
+<span class="m">254</span>       <span class="m">1</span> vda1 <span class="m">36</span> <span class="m">0</span> <span class="m">784</span> <span class="m">7</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">7</span> <span class="m">7</span>
+<span class="m">254</span>       <span class="m">2</span> vda2 <span class="m">66666</span> <span class="m">18</span> <span class="m">857298</span> <span class="m">84827</span> <span class="m">600470</span> <span class="m">135646</span> <span class="m">6607008</span> <span class="m">408077</span> <span class="m">0</span> <span class="m">59630</span> <span class="m">474740</span>
+</pre></div>
+
+
+<p>也可以通过 <code>/sys/block/vda/stat</code> 文件获取，<code>/proc/diskstats</code> 中块设备信息相较于 <code>/sys/block/{device name}/stat</code> 中多了三个字段(即前三个字段)，它们分别是 major device numbers, minor device numbers, device name</p>
+<p>参考文档 <a href="https://www.kernel.org/doc/Documentation/iostats.txt">I/O statistics fields</a> 可以知晓各个字段的含义</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Quoted</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>reads completed successfully</td>
+<td>成功完成的读请求次数</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>reads merged</td>
+<td>读请求的次数</td>
+</tr>
+<tr>
+<td>F3</td>
+<td>sectors read</td>
+<td>读请求的扇区数总和</td>
+</tr>
+<tr>
+<td>F4</td>
+<td>time spent reading (ms)</td>
+<td>读请求花费的时间总和</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>writes completed</td>
+<td>成功完成的写请求次数</td>
+</tr>
+<tr>
+<td>F6</td>
+<td>writes merged</td>
+<td>写请求合并的次数</td>
+</tr>
+<tr>
+<td>F7</td>
+<td>sectors written</td>
+<td>写请求的扇区数总和</td>
+</tr>
+<tr>
+<td>F8</td>
+<td>time spent writing (ms)</td>
+<td>写请求花费的时间总和</td>
+</tr>
+<tr>
+<td>F9</td>
+<td>I/Os currently in progress</td>
+<td>块设备队列中的IO请求数</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>time spent doing I/Os (ms)</td>
+<td>块设备队列非空时间总和</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>weighted time spent doing I/Os (ms)</td>
+<td>块设备队列非空时间加权总和</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>All fields except field 9 are cumulative since boot.  Field 9 should
+go to zero as I/Os complete; all others only increase (unless they
+overflow and wrap).  Yes, these are (32-bit or 64-bit) unsigned long
+(native word size) numbers, and on a very busy or long-lived system they
+may <strong>wrap</strong>. Applications should be prepared to deal with that; unless
+your observations are measured in large numbers of minutes or hours,
+they should not wrap twice before you notice them.</p>
+</blockquote>
+<h4><code>/proc/fb</code></h4>
+<p>包含 frame buffer devices 和对应的驱动</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/fb
+<span class="m">0</span> inteldrmfb
+</pre></div>
+
+
+<h4><code>/proc/filesystems</code></h4>
+<p>包含内核当前支持的文件系统类型</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/filesystems
+nodev   sysfs
+nodev   rootfs
+nodev   ramfs
+nodev   bdev
+nodev   proc
+</pre></div>
+
+
+<p>被标示为 <code>nodev</code> 的文件系统表示不需要块设备的支持。<code>mount</code> 命令如果未指定文件系统类型，则会尝试此文件中未标记为 <code>nodev</code> 的文件系统</p>
+<h4><code>/proc/interrupts</code></h4>
+<p>系统上每个 IRQ 相关的中断号列表及发生次数</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/interrupts
+         CPU0       CPU1       CPU2       CPU3       
+<span class="m">0</span>:         <span class="m">28</span>          <span class="m">0</span>          <span class="m">0</span>          <span class="m">0</span>   IO-APIC-edge      timer
+<span class="m">1</span>:         <span class="m">10</span>          <span class="m">0</span>          <span class="m">0</span>          <span class="m">0</span>   IO-APIC-edge      i8042
+</pre></div>
+
+
+<h4><code>/proc/iomem</code></h4>
+<p>内存地址和物理设备的地址映射</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/iomem
+<span class="m">00000000</span>-00000fff : reserved
+<span class="m">00001000</span>-0009c7ff : System RAM
+0009c800-0009ffff : reserved
+000a0000-000bffff : PCI Bus <span class="m">0000</span>:00
+000c0000-000cebff : Video ROM
+</pre></div>
+
+
+<h4><code>/proc/ioports</code></h4>
+<p>包含当前用于与设备进行输入/输出通信的端口区域列表</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/ioports
+<span class="m">0000</span>-0cf7 : PCI Bus <span class="m">0000</span>:00
+  <span class="m">0000</span>-001f : dma1
+  <span class="m">0020</span>-0021 : pic1
+  <span class="m">0040</span>-0043 : timer0
+  <span class="m">0050</span>-0053 : timer1
+</pre></div>
+
+
+<h4><code>/proc/kcore</code></h4>
+<p>此文件的大小为系统已经使用的物理内存 + 4KB。另外此文件格式为 ELF core</p>
+<h4><code>/proc/kmsg</code></h4>
+<p>This file can be used instead of the <code>syslog(2)</code> system call to
+read kernel messages.  A process must have superuser privi‐
+leges to read this file, and only one process should read this
+file.  This file should not be read if a syslog process is
+running which uses the <code>syslog(2)</code> system call facility to log
+kernel messages.</p>
+<p>可以使用 <code>dmsg</code> 获取文件内容</p>
+<h4><code>/proc/loadavg</code></h4>
+<div class="highlight"><pre><span></span>➜  cat /proc/loadavg
+<span class="m">2</span>.48 <span class="m">2</span>.44 <span class="m">2</span>.38 <span class="m">2</span>/594 <span class="m">18789</span>
+</pre></div>
+
+
+<p>前三列分别为 1/5/15 分钟内的负载。负载指在时间间隔内的平均进程数目，这些进程包含 State R 和 State D。关于 Linux 进程状态可以参考 <a href="https://idea.popcount.org/2012-12-11-linux-process-states/">Linux process states</a>。第四列包含了以 <code>/</code> 分隔的连个数字，前者为当前运行的内核可调度实体(进程和线程)；后者则表示当前系统中存在的内核调度实体。最后一列是系统最近创建的进程的 PID</p>
+<h4><code>/proc/locks</code></h4>
+<p>包含当前的文件锁信息</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/locks
+<span class="m">1</span>: POSIX  ADVISORY  WRITE <span class="m">18015</span> <span class="m">08</span>:08:6958728 <span class="m">0</span> EOF
+<span class="m">2</span>: POSIX  ADVISORY  READ  <span class="m">1761</span> <span class="m">08</span>:08:6819445 <span class="m">128</span> <span class="m">128</span>
+<span class="m">3</span>: POSIX  ADVISORY  READ  <span class="m">1761</span> <span class="m">08</span>:08:6817844 <span class="m">1073741826</span> <span class="m">1073742335</span>
+<span class="m">4</span>: POSIX  ADVISORY  READ  <span class="m">1777</span> <span class="m">08</span>:08:6819445 <span class="m">128</span> <span class="m">128</span>
+<span class="m">5</span>: POSIX  ADVISORY  READ  <span class="m">1777</span> <span class="m">08</span>:08:6817844 <span class="m">1073741826</span> <span class="m">1073742335</span>
+<span class="m">6</span>: POSIX  ADVISORY  WRITE <span class="m">1909</span> <span class="m">08</span>:08:136749 <span class="m">0</span> EOF
+</pre></div>
+
+
+<p>第二列是锁的类型</p>
+<ul>
+<li>FLOCK  This is a BSD file lock created using <code>flock(2)</code>.</li>
+<li>OFDLCK This is an open file description (OFD) lock created using <code>fcntl(2)</code>.</li>
+<li>POSIX  This is a POSIX byte-range lock created using <code>fcntl(2)</code>.</li>
+</ul>
+<p>第三列的值仅能为 <code>ADVISORY</code> 和 <code>MANDATORY</code> 之一。<code>ADVISORY</code> 意味着上锁但并不阻止其他人访问数据，而 <code>MANDATORY</code> 意味着在上锁时时不允许其他人访问数据</p>
+<p>第四列表示允许锁的持有者进行何种操作，<code>READ</code> 还是 <code>WRITE</code></p>
+<p>第五列则为持有锁的进程 PID</p>
+<p>第六列为三个以冒号分隔的子字段，用于标识包含上锁文件所在文件系统的设备的 major device id， minor device id 和锁定文件的 inode 编号</p>
+<p>第七和第八列为文件锁定区域的起始/终止偏移</p>
+<h4><code>/proc/meminfo</code></h4>
+<p>包含系统内存使用情况的统计信息</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/meminfo
+MemTotal:        <span class="m">3939472</span> kB
+MemFree:          <span class="m">415132</span> kB
+MemAvailable:     <span class="m">621044</span> kB
+Buffers:            <span class="m">9336</span> kB
+Cached:           <span class="m">598732</span> kB
+SwapCached:        <span class="m">34696</span> kB
+Active:          <span class="m">2458384</span> kB
+Inactive:         <span class="m">866172</span> kB
+...
+</pre></div>
+
+
+<p>字段比较多，可以通过 <code>man 5 proc</code> 查看</p>
+<h4><code>/proc/modules</code></h4>
+<p>系统载入的模块</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/modules
+bnep <span class="m">17349</span> <span class="m">2</span> - Live 0xffffffffa0b05000
+bluetooth <span class="m">374236</span> <span class="m">5</span> bnep, Live 0xffffffffa0a8c000
+...
+</pre></div>
+
+
+<p>第一列表示模块名；第二列表示此模块占用内存(字节)；第三列表示此模块有多少实例被载入；第四列表示此模块所依赖的其它模块；第五列表示此模块的状态 <code>Live</code>/<code>Loading</code>/<code>Unloading</code>；第六列表示此模块在内核内存(kernel memory)中的偏移量</p>
+<p>与此相关的是 <code>lsmod</code> 命令</p>
+<div class="highlight"><pre><span></span>➜  lsmod
+Module                  Size  Used by
+bnep                   <span class="m">17349</span>  <span class="m">2</span>
+bluetooth             <span class="m">374236</span>  <span class="m">5</span> bnep
+</pre></div>
+
+
+<h4><code>/proc/mounts</code></h4>
+<p>自 kernel 2.4.19 引入 Mount Namespaces 后，此文件成为指向 <code>/proc/self/mounts</code> 的链接</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/mounts
+rootfs / rootfs rw <span class="m">0</span> <span class="m">0</span>
+sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime <span class="m">0</span> <span class="m">0</span>
+proc /proc proc rw,nosuid,nodev,noexec,relatime <span class="m">0</span> <span class="m">0</span>
+...
+</pre></div>
+
+
+<p>第一列表示挂载的设备;第二列表示挂载点；第三列表示文件系统的类型；第四列表示与文件系统相关的挂载属性；第五列和第六列分别和 <code>dump(8)</code>、<code>fsck(8)</code> 有关</p>
+<h4><code>/proc/partitions</code></h4>
+<p>包含分区信息</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/partitions
+major minor  <span class="c1">#blocks  name</span>
+
+   <span class="m">8</span>        <span class="m">0</span>  <span class="m">488386584</span> sda
+   <span class="m">8</span>        <span class="m">1</span>   <span class="m">83891398</span> sda1
+   <span class="m">8</span>        <span class="m">2</span>          <span class="m">1</span> sda2
+   <span class="m">8</span>        <span class="m">5</span>  <span class="m">136319526</span> sda5
+   <span class="m">8</span>        <span class="m">6</span>  <span class="m">136319526</span> sda6
+   <span class="m">8</span>        <span class="m">7</span>    <span class="m">1325056</span> sda7
+   <span class="m">8</span>        <span class="m">8</span>  <span class="m">130527232</span> sda8
+  <span class="m">11</span>        <span class="m">0</span>    <span class="m">1048575</span> sr0
+</pre></div>
+
+
+<h4><code>/proc/slabinfo</code></h4>
+<p>包含 kernel cache 信息，可参考 <code>man 5 slabinfo</code></p>
+<h4><code>/proc/softirqs</code></h4>
+<p>软中断发生次数</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/softirqs
+                    CPU0       CPU1       CPU2       CPU3       
+          HI:      <span class="m">71707</span>       <span class="m">4953</span>      <span class="m">43725</span>       <span class="m">3678</span>
+       TIMER:     <span class="m">940999</span>     <span class="m">953804</span>    <span class="m">1206039</span>    <span class="m">1142431</span>
+      NET_TX:        <span class="m">311</span>        <span class="m">274</span>        <span class="m">157</span>        <span class="m">312</span>
+      NET_RX:       <span class="m">9133</span>      <span class="m">10337</span>       <span class="m">5852</span>       <span class="m">8635</span>
+       BLOCK:      <span class="m">92827</span>      <span class="m">17509</span>     <span class="m">111643</span>      <span class="m">22554</span>
+BLOCK_IOPOLL:          <span class="m">0</span>          <span class="m">0</span>          <span class="m">0</span>          <span class="m">0</span>
+     TASKLET:       <span class="m">1489</span>       <span class="m">4249</span>        <span class="m">985</span>    <span class="m">1430102</span>
+       SCHED:     <span class="m">787215</span>     <span class="m">795157</span>     <span class="m">791533</span>     <span class="m">782256</span>
+     HRTIMER:      <span class="m">17491</span>      <span class="m">18258</span>      <span class="m">17125</span>      <span class="m">17888</span>
+         RCU:     <span class="m">528269</span>     <span class="m">536955</span>     <span class="m">574611</span>     <span class="m">558437</span>
+</pre></div>
+
+
+<h4><code>/proc/stat</code></h4>
+<p>内核/系统统计信息</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/stat
+cpu  <span class="m">996252</span> <span class="m">1178</span> <span class="m">76001</span> <span class="m">1265780</span> <span class="m">123345</span> <span class="m">2</span> <span class="m">3922</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span>
+cpu0 <span class="m">227244</span> <span class="m">295</span> <span class="m">19094</span> <span class="m">346086</span> <span class="m">23740</span> <span class="m">0</span> <span class="m">170</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span>
+intr <span class="m">19660456</span> <span class="m">28</span> <span class="m">10</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">436</span> <span class="m">0</span> <span class="m">0</span> <span class="m">143</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> ...
+ctxt <span class="m">58426590</span>
+btime <span class="m">1533558367</span>
+processes <span class="m">6087</span>
+procs_running <span class="m">4</span>
+procs_blocked <span class="m">0</span>
+softirq <span class="m">8905217</span> <span class="m">76639</span> <span class="m">3030381</span> <span class="m">918</span> <span class="m">31305</span> <span class="m">209848</span> <span class="m">0</span> <span class="m">1791242</span> <span class="m">2182284</span> <span class="m">47958</span> <span class="m">1534642</span>
+</pre></div>
+
+
+<p>下面来逐行说一下每个字段的含义：</p>
+<div class="highlight"><pre><span></span>cpu  996252 1178 76001 1265780 123345 2 3922 0 0 0
+cpu0 227244 295 19094 346086 23740 0 170 0 0 0
+</pre></div>
+
+
+<p>以 USER_HZ(在大多系统下是 1/100 秒)为单位的时间统计，自左至右分别为：</p>
+<ul>
+<li>user: 处于用户态(user mode)时间</li>
+<li>nice: 处于低优先级用户态(user mode with low priority)的时间</li>
+<li>system: 处于内核态(system mode)的时间</li>
+<li>idle: 空闲时间</li>
+<li>iowait: I/O 等待时间 The CPU will not wait for I/O to complete; iowait is the time that a task is waiting for I/O to complete.  When a CPU goes into idle state for outstanding task I/O, another task will be scheduled on this CPU. On a multi-core CPU, the task waiting for I/O to complete is not running on any CPU, so the iowait of each CPU is difficult to calculate.</li>
+<li>irq: 硬中断处理时间</li>
+<li>softirq: 软中断处理时间</li>
+<li>steal: Stolen time, which is the time spent in other operating systems when running in a virtualized environment</li>
+<li>guest: Time spent running a virtual CPU for guest operating systems under the control of the Linux kernel.</li>
+<li>guest_nice: Time spent running a niced guest (virtual CPU for guest operating systems under the control of the Linux kernel).</li>
+</ul>
+<div class="highlight"><pre><span></span>intr 19660456 28 10 0 0 0 0 0 0 1 436 0 0 143 0 0 0 0 0 ...
+</pre></div>
+
+
+<p>此行包含中断发生次数，第一个列为发生的总次数，然后依次是每个中断对应的发生次数</p>
+<div class="highlight"><pre><span></span>ctxt 58426590
+</pre></div>
+
+
+<p>系统上下文切换发生次数</p>
+<div class="highlight"><pre><span></span>btime 1533558367
+</pre></div>
+
+
+<p>系统何时开机</p>
+<div class="highlight"><pre><span></span>processes 6087
+</pre></div>
+
+
+<p>自启动后发生了多少次 fork，即创建了多少进程</p>
+<div class="highlight"><pre><span></span>procs_running 4
+</pre></div>
+
+
+<p>处于 Runnable 状态的进程个数</p>
+<div class="highlight"><pre><span></span>procs_blocked 0
+</pre></div>
+
+
+<p>在等待 I/O 完成的进程个数</p>
+<div class="highlight"><pre><span></span>softirq 8905217 76639 3030381 918 31305 209848 0 1791242 2182284 47958 1534642
+</pre></div>
+
+
+<p>此行包含软中断发生次数，第一个列为发生的总次数，然后依次是每个中断对应的发生次数</p>
+<h4><code>/proc/swaps</code></h4>
+<p>包含 swap 信息</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/swaps
+Filename                Type          Size    Used    Priority
+/dev/sda7       partition   <span class="m">1325052</span> <span class="m">386556</span>  -1
+</pre></div>
+
+
+<h4><code>/proc/sysrq-trigger</code></h4>
+<p>写入特殊的字符会触发 SysRq 函数，相当于 ALT-SysRq-<character>。这里列举几个常见的</p>
+<ul>
+<li>
+<p>立即重新启动计算机 <code>echo "b" &gt; /proc/sysrq-trigger</code></p>
+</li>
+<li>
+<p>立即关闭计算机 <code>echo "o" &gt; /proc/sysrq-trigger</code></p>
+</li>
+<li>
+<p>导出内存分配的信息(需要 <code>/var/log/message</code> 查看) <code>echo "m" &gt; /proc/sysrq-trigger</code></p>
+</li>
+<li>
+<p>导出当前CPU寄存器信息和标志位的信息 <code>echo "p" &gt; /proc/sysrq-trigger</code></p>
+</li>
+<li>
+<p>导出线程状态信息 <code>echo "t" &gt; /proc/sysrq-trigger</code></p>
+</li>
+<li>
+<p>故意让系统崩溃 <code>echo "c" &gt; /proc/sysrq-trigger</code></p>
+</li>
+<li>
+<p>立即重新挂载所有的文件系统 <code>echo "s" &gt; /proc/sysrq-trigger</code></p>
+</li>
+<li>
+<p>立即重新挂载所有的文件系统为只读 <code>echo "u" &gt; /proc/sysrq-trigger</code></p>
+</li>
+</ul>
+<h4><code>/proc/uptime</code></h4>
+<p>第一列为系统启动时间(Sec)，第二列为启动后的 CPU 空闲时间(Sec)</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/uptime
+<span class="m">6345</span>.74 <span class="m">14566</span>.28
+</pre></div>
+
+
+<h4><code>/proc/version</code></h4>
+<p>系统版本信息</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/version
+Linux version <span class="m">3</span>.16.0-6-amd64 <span class="o">(</span>debian-kernel@lists.debian.org<span class="o">)</span>
+</pre></div>
+
+
+<p>另外不同系统的版本号一般唯一 <code>/etc</code> 下，比如 <code>debian_verion</code>、<code>arch_release</code></p>
+<h4><code>/proc/vmstat</code></h4>
+<p>包含虚拟内存统计数据</p>
+<div class="highlight"><pre><span></span>➜  /proc cat /proc/vmstat
+nr_free_pages <span class="m">98531</span>
+nr_alloc_batch <span class="m">1744</span>
+nr_inactive_anon <span class="m">186201</span>
+...
+</pre></div>
+
+
+<h4><code>/proc/zoneinfo</code></h4>
+<p>memory zones info</p>
+<div class="highlight"><pre><span></span>➜  cat /proc/zoneinfo
+Node <span class="m">0</span>, zone      DMA
+  pages free     <span class="m">3909</span>
+        min      <span class="m">68</span>
+        low      <span class="m">85</span>
+        high     <span class="m">102</span>
+        scanned  <span class="m">8</span>
+        spanned  <span class="m">4095</span>
+        present  <span class="m">3995</span>
+        managed  <span class="m">3974</span>
+    nr_free_pages <span class="m">3909</span>
+    nr_alloc_batch <span class="m">17</span>
+    nr_inactive_anon <span class="m">16</span>
+</pre></div>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>013 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/013.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="You shouldn’t mock an API (verb), instead you create a mock (noun) that implements a given API. Mocks and explicit contracts 最简单的例子是访问外部 API defmodule MyApp.MyController do def show(conn, %{&#34;username&#34; =&gt; username}) do # ... MyApp.TwitterClient.get_username(username) # ... end end 在测试中一般通过 mock MyApp.TwitterClient 所使用的 HTTPClient 来解决 mock(HTTPClient, :get …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="013"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/013.html"/>
+        <meta property="og:description" content="You shouldn’t mock an API (verb), instead you create a mock (noun) that implements a given API. Mocks and explicit contracts 最简单的例子是访问外部 API defmodule MyApp.MyController do def show(conn, %{&#34;username&#34; =&gt; username}) do # ... MyApp.TwitterClient.get_username(username) # ... end end 在测试中一般通过 mock MyApp.TwitterClient 所使用的 HTTPClient 来解决 mock(HTTPClient, :get …"/>
+        <meta property="article:published_time" content="2018-09-15" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/013.html"
+                       rel="bookmark"
+                       title="Permalink to 013">
+                        013
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-09-15T00:00:00+08:00"> Sat 15 September 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <blockquote>
+<p>You shouldn’t mock an API (verb), instead you create a mock (noun) that implements a given API.</p>
+</blockquote>
+<h2><a href="http://blog.plataformatec.com.br/2015/10/mocks-and-explicit-contracts/">Mocks and explicit contracts</a></h2>
+<p>最简单的例子是访问外部 API</p>
+<div class="highlight"><pre><span></span><span class="kd">defmodule</span> <span class="nc">MyApp.MyController</span> <span class="k">do</span>
+  <span class="kd">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&quot;username&quot;</span> <span class="o">=&gt;</span> <span class="n">username</span><span class="p">})</span> <span class="k">do</span>
+    <span class="c1"># ...</span>
+    <span class="nc">MyApp.TwitterClient</span><span class="o">.</span><span class="n">get_username</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+    <span class="c1"># ...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>在测试中一般通过 mock <code>MyApp.TwitterClient</code> 所使用的 <code>HTTPClient</code> 来解决</p>
+<div class="highlight"><pre><span></span><span class="n">mock</span><span class="p">(</span><span class="nc">HTTPClient</span><span class="p">,</span> <span class="ss">:get</span><span class="p">,</span> <span class="ss">to_return</span><span class="p">:</span> <span class="p">%{</span><span class="n">...</span><span class="p">,</span> <span class="s2">&quot;username&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;josevalim&quot;</span><span class="p">,</span> <span class="n">...</span><span class="p">})</span>
+</pre></div>
+
+
+<p>问题在于 mock 掉 <code>HTTPClient</code> 会将程序和此 <code>HTTPClient</code> 进行耦合。如果某一天想要使用一个新的 HTTP Client，即使应用本身没有变化，测试也可能会失败，因为它们都依赖于 <code>HTTPClient</code>。</p>
+<p>另一种方法是在测试时替换掉 <code>MyApp.TwitterClient</code> 而不是去 mock <code>HTTPClient</code>。在 Elixir 中所有的应用都附带配置文件和读取它们的机制。可以利用这一点，根据不同的环境变量使用不同的 Twitter 客户端。代码如下:</p>
+<div class="highlight"><pre><span></span><span class="kd">defmodule</span> <span class="nc">MyApp.MyController</span> <span class="k">do</span>
+  <span class="na">@twitter_api</span> <span class="nc">Application</span><span class="o">.</span><span class="n">get_env</span><span class="p">(</span><span class="ss">:my_app</span><span class="p">,</span> <span class="ss">:twitter_api</span><span class="p">)</span>
+
+  <span class="kd">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&quot;username&quot;</span> <span class="o">=&gt;</span> <span class="n">username</span><span class="p">})</span> <span class="k">do</span>
+    <span class="c1"># ...</span>
+    <span class="na">@twitter_api</span><span class="o">.</span><span class="n">get_username</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+    <span class="c1"># ...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>配置文件如下:</p>
+<div class="highlight"><pre><span></span><span class="c1"># In config/dev.exs</span>
+<span class="n">config</span> <span class="ss">:my_app</span><span class="p">,</span> <span class="ss">:twitter_api</span><span class="p">,</span> <span class="nc">MyApp.Twitter.Sandbox</span>
+
+<span class="c1"># In config/test.exs</span>
+<span class="n">config</span> <span class="ss">:my_app</span><span class="p">,</span> <span class="ss">:twitter_api</span><span class="p">,</span> <span class="nc">MyApp.Twitter.InMemory</span>
+
+<span class="c1"># In config/prod.exs</span>
+<span class="n">config</span> <span class="ss">:my_app</span><span class="p">,</span> <span class="ss">:twitter_api</span><span class="p">,</span> <span class="nc">MyApp.Twitter.HTTPClient</span>
+</pre></div>
+
+
+<p>这样我们可以根据不同的需求选择最佳的策略。如果 Twitter 提供某种 sandbox 环境用于开发，则可以使用 <code>MyApp.Twitter.Sandbox</code>；如果需要避免 HTTP 请求，则可以使用 <code>MyApp.Twitter.InMemory</code></p>
+<div class="highlight"><pre><span></span><span class="kd">defmodule</span> <span class="nc">MyApp.Twitter.InMemory</span> <span class="k">do</span>
+  <span class="kd">def</span> <span class="n">get_username</span><span class="p">(</span><span class="s2">&quot;josevalim&quot;</span><span class="p">)</span> <span class="k">do</span>
+    <span class="p">%</span><span class="nc">MyApp.Twitter.User</span><span class="p">{</span>
+      <span class="ss">username</span><span class="p">:</span> <span class="s2">&quot;josevalim&quot;</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>事实上，<code>MyApp.Twitter.InMemory</code> 就是一个 mock object</p>
+<p>因为 mock 意味着替换真正的实体(real entity)，所以只有在我们能够明确的定义实体的行为时，这种替换才是有效的。如果无法做到这一点，mock object 会随着时间愈益复杂，增加了测试组件间的耦合</p>
+<p>我们定义了三种 Twitter API 的实现，因此我们最好将其显式声明。Elixir 中可以使用回调函数来定义 behaviour</p>
+<div class="highlight"><pre><span></span><span class="kd">defmodule</span> <span class="nc">MyApp.Twitter</span> <span class="k">do</span>
+  <span class="na">@doc</span> <span class="s2">&quot;...&quot;</span>
+  <span class="na">@callback</span> <span class="n">get_username</span><span class="p">(</span><span class="n">username</span> <span class="o">::</span> <span class="nc">String</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="o">::</span> <span class="p">%</span><span class="nc">MyApp.Twitter.User</span><span class="p">{}</span>
+  <span class="na">@doc</span> <span class="s2">&quot;...&quot;</span>
+  <span class="na">@callback</span> <span class="n">followers_for</span><span class="p">(</span><span class="n">username</span> <span class="o">::</span> <span class="nc">String</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="o">::</span> <span class="p">[%</span><span class="nc">MyApp.Twitter.User</span><span class="p">{}]</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>并将 <code>@behaviour MyApp.Twitter</code> 添加在每个实现此 behavior 的模块上。关于这一部分可以参考 参考 <a href="https://elixir-lang.org/getting-started/typespecs-and-behaviours.html#defining-behaviours">Typespecs and behaviours</a></p>
+<p>先前由于没有显式的合约(explicit contract)，应用的边界会像下面这样</p>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">MyApp</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">HTTP</span> <span class="n">Client</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Twitter</span> <span class="n">API</span><span class="p">]</span>
+</pre></div>
+
+
+<p>这就是改变 <code>HTTPClient</code> 后可能会破坏集成测试的原因。而现在我们的应用依赖于合约，且只有合约的某个具体实现依赖于 <code>HTTPClient</code></p>
+<div class="highlight"><pre><span></span><span class="k">[MyApp] -&gt; [MyApp.Twitter (contract)]</span>
+<span class="k">[MyApp.Twitter.HTTP (contract impl)] -&gt; [HTTPClient] -&gt; [Twitter API]</span>
+</pre></div>
+
+
+<p>对于应用的测试已经和 <code>HTTPClient</code> 与 Twitter API 解耦。改变 <code>HTTPClient</code> 后不会破坏对于应用的测试，只会对 <code>MyApp.Twitter.HTTP</code> 的测试产生影响</p>
+<p>测试大型系统的挑战在于如何找到合适的边界。如果定义了太多的边界也没有编写集成测试来覆盖它们的交互，那么测试将会变得脆弱，错误将会被带到生产环境中。另一方面，定义过少的边界会导致套件缓慢且难以调试测试。通常而言，因团队和其他外部因素而异，没有标准答案</p>
+<p>虽然可以使用配置文件来解决外部API问题，但有时将依赖项作为参数传递更容易为容易。比如希望在测试中避免一些开销过高的工作:</p>
+<div class="highlight"><pre><span></span><span class="kd">defmodule</span> <span class="nc">MyModule</span> <span class="k">do</span>
+  <span class="kd">def</span> <span class="n">my_function</span> <span class="k">do</span>
+    <span class="c1"># ...</span>
+    <span class="nc">SomeDependency</span><span class="o">.</span><span class="n">heavy_work</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+    <span class="c1"># ...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>更改其实现，将内部的依赖作为参数</p>
+<div class="highlight"><pre><span></span><span class="kd">defmodule</span> <span class="nc">MyModule</span> <span class="k">do</span>
+  <span class="kd">def</span> <span class="n">my_function</span><span class="p">(</span><span class="n">dependency</span> <span class="p">\\</span> <span class="nc">SomeDependency</span><span class="p">)</span> <span class="k">do</span>
+    <span class="c1"># ...</span>
+    <span class="n">dependency</span><span class="o">.</span><span class="n">heavy_work</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+    <span class="c1"># ...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>测试的时候将依赖注入进去</p>
+<div class="highlight"><pre><span></span><span class="n">test</span> <span class="s2">&quot;my function performs heavy work&quot;</span> <span class="k">do</span>
+  <span class="c1"># Simulate heavy work by sending self() a message</span>
+  <span class="kd">defmodule</span> <span class="nc">TestDependency</span> <span class="k">do</span>
+    <span class="kd">def</span> <span class="n">heavy_work</span><span class="p">(</span><span class="n">_arg1</span><span class="p">,</span> <span class="n">_arg2</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">send</span> <span class="n">self</span><span class="p">(),</span> <span class="ss">:heavy_work</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="nc">MyModule</span><span class="o">.</span><span class="n">my_function</span><span class="p">(</span><span class="nc">TestDependency</span><span class="p">)</span>
+
+  <span class="n">assert_received</span> <span class="ss">:heavy_work</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<h3>Summing up</h3>
+<ul>
+<li>创建一个实现了所有接口的 mock object 比 mock 掉对象的方法更好</li>
+<li>划分边界，定义合约，避免模块间的耦合</li>
+</ul>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

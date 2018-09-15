@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>006 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/006.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content=":tada: Python 3.7.0 在本周发布了 :tada: What’s New In Python 3.7 Syntax changes async 和 await 成为关键字 In [9]: import keyword In [10]: all(map(keyword.iskeyword, (&#39;async&#39;, &#39;await&#39;))) Out[10]: True dict 对象保持插入顺序的特性已经被声明为 Python 语言规范的一部分 New Features PEP 563 - Postponed Evaluation of Annotations 推迟了注解的求值时间，解决了下面的两个问题: 注解只能使用当前作用域中已经存在的名称 …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="006"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/006.html"/>
+        <meta property="og:description" content=":tada: Python 3.7.0 在本周发布了 :tada: What’s New In Python 3.7 Syntax changes async 和 await 成为关键字 In [9]: import keyword In [10]: all(map(keyword.iskeyword, (&#39;async&#39;, &#39;await&#39;))) Out[10]: True dict 对象保持插入顺序的特性已经被声明为 Python 语言规范的一部分 New Features PEP 563 - Postponed Evaluation of Annotations 推迟了注解的求值时间，解决了下面的两个问题: 注解只能使用当前作用域中已经存在的名称 …"/>
+        <meta property="article:published_time" content="2018-06-30" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/006.html"
+                       rel="bookmark"
+                       title="Permalink to 006">
+                        006
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-06-30T00:00:00+08:00"> Sat 30 June 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>:tada: Python 3.7.0 在本周发布了 :tada:</p>
+<h2><a href="https://docs.python.org/3.7/whatsnew/3.7.html">What’s New In Python 3.7</a></h2>
+<h3>Syntax changes</h3>
+<p><code>async</code> 和 <code>await</code> 成为关键字</p>
+<div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">keyword</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">keyword</span><span class="o">.</span><span class="n">iskeyword</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;async&#39;</span><span class="p">,</span> <span class="s1">&#39;await&#39;</span><span class="p">)))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="bp">True</span>
+</pre></div>
+
+
+<h3><code>dict</code> 对象保持插入顺序的特性已经被声明为 Python 语言规范的一部分</h3>
+<h3>New Features</h3>
+<h4><a href="https://www.python.org/dev/peps/pep-0563/">PEP 563</a> - Postponed Evaluation of Annotations</h4>
+<p>推迟了注解的求值时间，解决了下面的两个问题:</p>
+<ul>
+<li>注解只能使用当前作用域中已经存在的名称，换句话说它不支持 forward reference</li>
+<li>注解对于 Python 程序的启动时间存在不利影响</li>
+</ul>
+<p>由于会破坏兼容性所以需要通过 <code>from __future__ import annotations</code> 来开启</p>
+<div class="highlight"><pre><span></span><span class="c1"># 支持 forward reference</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Hello</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">Hello</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+
+<p>原理是解释器将注解以 AST 等价的字符串形式存储，而不是在定义时对注解中的表达式进行求值。这种策略优化了 Python 的启动速度。可以自行对比 Python 3.6 和 Python 3.7 下此段代码的区别</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># Only Python 3.7</span>
+
+<span class="k">def</span> <span class="nf">func</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mi">0</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">__annotations__</span><span class="p">)</span>
+<span class="c1"># output Python 3.7</span>
+<span class="c1"># {&#39;return&#39;: &#39;int&#39;}</span>
+<span class="c1"># output Python 3.6</span>
+<span class="c1"># {&#39;return&#39;: &lt;class &#39;int&#39;&gt;}</span>
+</pre></div>
+
+
+<p>当然可以通过 <a href="https://docs.python.org/3.7/library/typing.html#typing.get_type_hints"><code>typing.get_type_hints()</code></a> 将字符串形式的注解转换为实际的类型</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+
+<span class="k">def</span> <span class="nf">func</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mi">0</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">typing</span><span class="o">.</span><span class="n">get_type_hints</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
+</pre></div>
+
+
+<p>将字符串形式注解转换为实际类型的时候需要给与一个作用域，这点也可以从函数签名上看出 <code>typing.get_type_hints(obj[, globals[, locals]])</code>。如果人为地去干预作用域的话，是不是可以做一些有趣的事情呢？</p>
+<h4><a href="https://www.python.org/dev/peps/pep-0538/">PEP 538</a> - Legacy C Locale Coercion</h4>
+<p>PEP 538 updates the default interpreter command line interface to automatically coerce that locale to an available UTF-8 based locale as described in the documentation of the new <a href="https://docs.python.org/3.7/using/cmdline.html#envvar-PYTHONCOERCECLOCALE"><code>PYTHONCOERCECLOCALE</code></a> environment variable. Automatically setting <code>LC_CTYPE</code> this way means that both the core interpreter and locale-aware C extensions (such as <a href="https://docs.python.org/3.7/library/readline.html#module-readline"><code>readline</code></a>) will assume the use of UTF-8 as the default text encoding, rather than ASCII.</p>
+<h4><a href="https://www.python.org/dev/peps/pep-0540/">PEP 540</a> - Forced UTF-8 Runtime Mode</h4>
+<p>通过 <code>-X utf8</code> 命令行参数或者 <code>PYTHONUTF8</code> 环境变量可以强制 CPython 开启 <em>UTF-8 模式</em>。在 <code>UTF-8 模式</code>下，CPython 会忽略本地设置，而使用 <code>UTF-8</code> 编码。<code>sys.stdin</code> 和 <code>sys.stdout</code> 流的错误处理将被设置为 <code>surrogateescape</code></p>
+<h4><a href="https://www.python.org/dev/peps/pep-0553">PEP 553</a> - Built-in breakpoint()</h4>
+<p>简化了调试流程，原先如果使用 <code>pdb</code> 调试的话需要至少添加 27 个字符</p>
+<div class="highlight"><pre><span></span><span class="n">foo</span><span class="p">()</span>
+<span class="kn">import</span> <span class="nn">pdb</span><span class="p">;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+<span class="n">bar</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Python 3.7 添加了新的内建函数 <code>breakpoint()</code>。<code>breakpoint()</code> 会调用 <code>sys.breakpointhook()</code>，其默认行为是 <code>import pdb; pdb.set_trace()</code>。可以通过修改 <code>sys.breakpointhook</code> 的绑定来自定义调试行为。另外 <code>sys.breakpointhook</code> 的默认实现里是支持通过 <code>PYTHONBREAKPOINT</code> 环境变量来自定义调试的。<code>sys.__breakpointhook__</code> 存储了默认的 <code>sys.breakpointhook</code> 实现，所以可以通过 <code>sys.breakpointhook = sys.__breakpointhook__</code> 来还原</p>
+<h4><a href="https://www.python.org/dev/peps/pep-0539">PEP 539</a> - New C API for Thread-Local Storage</h4>
+<p>弃用原先的 TLS API，因为在所有平台上它都是使用 <code>int</code> 来表示 TLS key。对于官方支持的平台而言，这不是问题，但这不符合 POSIX 标准，也不具有任何实际意义上的可移植性。PEP 539 提供了新的 <a href="https://docs.python.org/3.7/c-api/init.html#thread-specific-storage-api">Thread Specific Storage (TSS) API</a>，其使用新的类型 <code>Py_tss_t</code> 来表示 key</p>
+<h4><a href="https://www.python.org/dev/peps/pep-0562/">PEP 562</a> - Customization of Access to Module Attributes</h4>
+<p>可以在模块中定义 <code>__getattr__()</code> 和 <code>__dir__()</code> 了。典型的应用场景是</p>
+<ul>
+<li>module attribute deprecation</li>
+<li>lazy loading</li>
+</ul>
+<p>首先来看 module attribute deprecation 的例子</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+<span class="n">deprecated_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;old_function&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_deprecated_old_function</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">deprecated_names</span><span class="p">:</span>
+        <span class="n">warn</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{name} is deprecated&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">f</span><span class="s2">&quot;_deprecated_{name}&quot;</span><span class="p">]</span>
+    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;module {__name__} has no attribute {name}&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>再来看一下 lazy loading，这本身是一种 <a href="https://en.wikipedia.org/wiki/Lazy_initialization">设计模式</a></p>
+<div class="highlight"><pre><span></span><span class="c1"># lib/__init__.py</span>
+
+<span class="kn">import</span> <span class="nn">importlib</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;submod&#39;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">__all__</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;module {__name__!r} has no attribute {name!r}&quot;</span><span class="p">)</span>
+
+<span class="c1"># lib/submod.py</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Submodule loaded&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">HeavyClass</span><span class="p">:</span>
+    <span class="o">...</span>
+
+<span class="c1"># main.py</span>
+
+<span class="kn">import</span> <span class="nn">lib</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">submodule</span><span class="o">.</span><span class="n">HeavyClass</span>  <span class="c1"># prints &quot;Submodule loaded&quot;</span>
+</pre></div>
+
+
+<p>另外我发现了自己的一个知识盲区，下面的代码是会输出两次 <code>xx</code> 的</p>
+<div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="err">!</span><span class="n">cat</span> <span class="n">m</span><span class="o">.</span><span class="n">py</span>
+<span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">m</span> <span class="kn">import</span> <span class="n">xx</span>
+<span class="n">__path__</span>
+<span class="n">xx</span>
+<span class="n">xx</span>
+</pre></div>
+
+
+<p>原因可以在 Python 的 <a href="https://docs.python.org/3/reference/simple_stmts.html#import">文档</a> 中找到</p>
+<blockquote>
+<p>The <code>from</code> form uses a slightly more complex process:</p>
+<ol>
+<li>find the module specified in the from clause, loading and initializing it if necessary;</li>
+<li>for each of the identifiers specified in the import clauses:</li>
+<li>check if the imported module has an attribute by that name</li>
+<li>if not, attempt to import a submodule with that name and then check the imported module again for that attribute</li>
+<li>if the attribute is not found, ImportError is raised.</li>
+<li>otherwise, a reference to that value is stored in the local namespace, using the name in the as clause if it is present, otherwise using the attribute name</li>
+</ol>
+</blockquote>
+<h4><a href="https://www.python.org/dev/peps/pep-0564">PEP 564</a> - New Time Functions With Nanosecond Resolution</h4>
+<p><code>time</code> 添加了 6 个纳秒级别精度的 API，返回值均为整数</p>
+<div class="highlight"><pre><span></span>time.clock_gettime_ns()
+time.clock_settime_ns()
+time.monotonic_ns()
+time.perf_counter_ns()
+time.process_time_ns()
+time.time_ns()
+</pre></div>
+
+
+<h4><a href="https://www.python.org/dev/peps/pep-0565">PEP 565</a> - Show DeprecationWarning in <code>__main__</code></h4>
+<p>Python 3.2 起 <code>DeprecationWarning</code> 默认会被忽略，现在直接在 <code>__main__</code> 中执行的代码可以重新显示这些信息了。</p>
+<blockquote>
+<p>As a result, developers of single file scripts and those using Python interactively should once again start seeing deprecation warnings for the APIs they use, but deprecation warnings triggered by imported application, library and framework modules will continue to be hidden by default.</p>
+</blockquote>
+<p>目前标准库允许开发者选择三种不同的 deprecation warning 行为，分别如下:</p>
+<ul>
+<li><a href="https://docs.python.org/3.7/library/exceptions.html#FutureWarning">FutureWarning</a>: always displayed by default, recommended for warnings intended to be seen by application end users (e.g. for deprecated application configuration settings).</li>
+<li><a href="https://docs.python.org/3.7/library/exceptions.html#DeprecationWarning">DeprecationWarning</a>: displayed by default only in <code>__main__</code> and when running tests, recommended for warnings intended to be seen by other Python developers where a version upgrade may result in changed behaviour or an error.</li>
+<li><a href="https://docs.python.org/3.7/library/exceptions.html#PendingDeprecationWarning">PendingDeprecationWarning</a>: displayed by default only when running tests, intended for cases where a future version upgrade will change the warning category to <a href="https://docs.python.org/3.7/library/exceptions.html#DeprecationWarning">DeprecationWarning</a> or <a href="https://docs.python.org/3.7/library/exceptions.html#FutureWarning">FutureWarning</a>.</li>
+</ul>
+<h4><a href="https://www.python.org/dev/peps/pep-0560">PEP 560</a> - Core Support for typing module and Generic Types</h4>
+<p>引入:</p>
+<ul>
+<li><code>__class_getitem__()</code></li>
+<li><code>__mro_entries__</code></li>
+</ul>
+<p>用法可以参考 <a href="https://www.python.org/dev/peps/pep-0560/#specification">PEP 560 Spec</a> 部分</p>
+<h4><a href="https://www.python.org/dev/peps/pep-0552">PEP 552</a> - Hash-based .pyc Files</h4>
+<p>Python 通过比对代码文件的元数据(最后修改时间和大小)和 pyc 文件头部的元数据来确定是否需要更新 pyc 文件。当文件系统的时间戳比较粗糙时，Python 可能会错过更新。另外在缓存文件中添加时间戳对于 <a href="https://reproducible-builds.org/">build reproduciblity</a> 和基于内容的构建系统来说是存在问题的。</p>
+<p>PEP 552 扩展了 pyc 格式，可以使用文件的哈希值进行判断。默认情况下，Python 仍然使用基于时间戳的方式检测，并且不会在运行时生成基于哈希的 pyc 文件。基于哈希的 pyc 文件可以用 <code>py_compile</code> 或 <code>compileall</code> 生成。</p>
+<p>基于哈希的 pyc 文件有两种变种: checked 和 uncheckd。下面的说明来源于 <a href="https://docs.python.org/3.7/reference/import.html#pyc-invalidation">文档</a></p>
+<blockquote>
+<p>For checked hash-based .pyc files, Python validates the cache file by hashing the source file and comparing the resulting hash with the hash in the cache file. If a checked hash-based cache file is found to be invalid, Python regenerates it and writes a new checked hash-based cache file. For unchecked hash-based .pyc files, Python simply assumes the cache file is valid if it exists. Hash-based .pyc files validation behavior may be overridden with the --check-hash-based-pycs flag.</p>
+</blockquote>
+<h4>Development Runtime Mode: -X dev</h4>
+<p><code>-X dev</code> 命令行选项和 <code>PYTHONDEVMODE</code> 环境变量可以用于启用 CPython 的开发者模式</p>
+<h3>Other Language Changes</h3>
+<p>内容比较多，请参考 <a href="https://docs.python.org/3.7/whatsnew/3.7.html#other-language-changes">原文</a></p>
+<h3>New library modules</h3>
+<ul>
+<li><a href="https://docs.python.org/3.7/library/contextvars.html#module-contextvars">contextvars</a>: <a href="https://www.python.org/dev/peps/pep-0567/">PEP 567 – Context Variables</a></li>
+<li><a href="https://docs.python.org/3.7/library/dataclasses.html#module-dataclasses">dataclasses</a>: <a href="https://www.python.org/dev/peps/pep-0557/">PEP 557 – Data Classes</a></li>
+<li><a href="https://docs.python.org/3.7/library/importlib.html#module-importlib.resources">importlib.resources</a></li>
+</ul>
+<h3>Improved Modules</h3>
+<p>标准库做了一些修改，内容比较多，请参考 <a href="https://docs.python.org/3.7/whatsnew/3.7.html#improved-modules">原文</a></p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

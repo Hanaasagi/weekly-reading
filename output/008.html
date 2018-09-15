@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>008 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/008.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="ip 和 ss 命令的使用 ip(8) ip 命令能够显示/操作路由、网络设备、接口和隧道等。若机器上不存在 ip 命令，则需要安装 iproute2 iproute2 提供了一系列用于替换 net-tools 的命令，一个简单的对比如下 iproute2 net-tools meaing ip addr ifconfig -a 显示所有地址信息 ip link set eth0 down ifconfig eth0 down 停止网络接口 ip link set eth0 up ifconfig eth0 up 激活网络接口 ip addr add …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="008"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/008.html"/>
+        <meta property="og:description" content="ip 和 ss 命令的使用 ip(8) ip 命令能够显示/操作路由、网络设备、接口和隧道等。若机器上不存在 ip 命令，则需要安装 iproute2 iproute2 提供了一系列用于替换 net-tools 的命令，一个简单的对比如下 iproute2 net-tools meaing ip addr ifconfig -a 显示所有地址信息 ip link set eth0 down ifconfig eth0 down 停止网络接口 ip link set eth0 up ifconfig eth0 up 激活网络接口 ip addr add …"/>
+        <meta property="article:published_time" content="2018-07-14" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/008.html"
+                       rel="bookmark"
+                       title="Permalink to 008">
+                        008
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-07-14T00:00:00+08:00"> Sat 14 July 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><code>ip</code> 和 <code>ss</code> 命令的使用</p>
+<h2><a href="https://linux.die.net/man/8/ip">ip(8)</a></h2>
+<p><code>ip</code> 命令能够显示/操作路由、网络设备、接口和隧道等。若机器上不存在 <code>ip</code> 命令，则需要安装 <code>iproute2</code></p>
+<p><code>iproute2</code> 提供了一系列用于替换 <code>net-tools</code> 的命令，一个简单的对比如下</p>
+<table>
+<thead>
+<tr>
+<th>iproute2</th>
+<th>net-tools</th>
+<th>meaing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ip addr</td>
+<td>ifconfig -a</td>
+<td>显示所有地址信息</td>
+</tr>
+<tr>
+<td>ip link set eth0 down</td>
+<td>ifconfig eth0 down</td>
+<td>停止网络接口</td>
+</tr>
+<tr>
+<td>ip link set eth0 up</td>
+<td>ifconfig eth0 up</td>
+<td>激活网络接口</td>
+</tr>
+<tr>
+<td>ip addr add 192.168.1.1/24 dev eth0</td>
+<td>ifconfig eth0 192.168.1.1</td>
+<td>为 eth0 设置 IP</td>
+</tr>
+<tr>
+<td>ip addr add 192.168.1.1/24 dev eth0</td>
+<td>ifconfig eth0 netmask 255.255.255.0</td>
+<td>为 eth0 设置 IP</td>
+</tr>
+<tr>
+<td>ip route</td>
+<td>route</td>
+<td>列出路由表条目</td>
+</tr>
+<tr>
+<td>ip route add 192.168.1.0/24 dev eth0</td>
+<td>route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0</td>
+<td>添加路由</td>
+</tr>
+<tr>
+<td>ip route add default via 192.168.1.1</td>
+<td>route add default gw 192.168.1.1</td>
+<td>更改默认路由</td>
+</tr>
+</tbody>
+</table>
+<p>退出码：</p>
+<blockquote>
+<p>Exit status is 0 if command was successful, and 1 if there is a syntax error.  If an error was reported by the kernel exit status is 2</p>
+</blockquote>
+<p><code>ip</code> 功能强大，支持下面所有对象的设置(仅列出部分)</p>
+<ul>
+<li>link: network device</li>
+<li>address: protocol (IP or IPv6) address on a device</li>
+<li>route: routing table entry</li>
+<li>neigh :manage ARP or NDISC cache entries</li>
+<li>netns: manage network namespaces</li>
+</ul>
+<p>每个对象具有不同的参数选项，可以通过 <code>man 8 ip-xxx</code> 进行查阅，这里列出几个使用频率较高的(上面对比表格中的就不列出了)</p>
+<h4><code>ip link list type bridge</code> 显示指定类型的网络接口</h4>
+<div class="highlight"><pre><span></span>$ ip link list <span class="nb">type</span> bridge
+<span class="m">3</span>: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc noqueue state DOWN mode DEFAULT group default                                                                                 
+    link/ether <span class="m">02</span>:42:0e:05:16:7b brd ff:ff:ff:ff:ff:ff
+</pre></div>
+
+
+<h4><code>ip link list master docker0</code> 显示依附于某个设备下的接口</h4>
+<div class="highlight"><pre><span></span>$ ip link list master docker0
+<span class="m">17</span>: veth0ecc4d6@if16: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue master docker0 state UP mode DEFAULT group default                                                            
+    link/ether <span class="m">92</span>:41:3d:0a:cf:84 brd ff:ff:ff:ff:ff:ff link-netnsid <span class="m">0</span>
+</pre></div>
+
+
+<h4><code>ip -s link list eth0</code> 显示指定网络接口的统计数据</h4>
+<div class="highlight"><pre><span></span>$ ip -s link show eth0
+<span class="m">2</span>: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc fq_codel state UP mode DEFAULT group default qlen <span class="m">1000</span>                                                                             
+    link/ether <span class="m">02</span>:01:85:82:61:59 brd ff:ff:ff:ff:ff:ff
+    RX: bytes  packets  errors  dropped overrun mcast
+    <span class="m">524853493</span>  <span class="m">3266577</span>  <span class="m">0</span>       <span class="m">0</span>       <span class="m">0</span>       <span class="m">0</span>
+    TX: bytes  packets  errors  dropped carrier collsns
+    <span class="m">252720573</span>  <span class="m">483509</span>   <span class="m">0</span>       <span class="m">0</span>       <span class="m">0</span>       <span class="m">0</span>
+</pre></div>
+
+
+<h4>假设现在你有一个IP地址，你需要知道路由包从哪里来可以使用 <code>ip route get</code></h4>
+<div class="highlight"><pre><span></span>$ ip route get <span class="m">172</span>.17.0.2
+<span class="m">172</span>.17.0.2 dev docker0 src <span class="m">172</span>.17.0.1 uid <span class="m">0</span>
+   cache
+</pre></div>
+
+
+<h4>网络命名空间</h4>
+<ul>
+<li><code>ip netns add name</code> 添加网络命名空间</li>
+<li><code>ip netns list</code> 显示所有的网络命名空间</li>
+<li><code>ip netns exec name command</code> 在指定的网络命名空间下执行命令</li>
+</ul>
+<h4>ARP 记录</h4>
+<ul>
+<li><code>ip neigh</code> 显示当前的 ARP 表</li>
+<li><code>ip neigh flush dev eth0</code> 清空指定接口下的所有记录</li>
+<li><code>ip neigh add 192.168.1.1 lladdr 1:2:3:4:5:6 dev eth0</code> 添加一条 ARP 记录</li>
+<li><code>ip neigh del 192.168.1.1 dev eth0</code> 删除一条 ARP 记录</li>
+</ul>
+<h2><a href="https://linux.die.net/man/8/ss">ss(8)</a></h2>
+<p><code>ss</code> 命令用于替换 <code>netstat</code>，可以输出 socket 统计信息</p>
+<h4><code>ss -ta</code> 显示所有 TCP 连接</h4>
+<ul>
+<li><code>-e</code>, <code>--extended</code>: Show detailed socket information.</li>
+<li><code>-t</code>, <code>--tcp</code>: Display only TCP sockets.</li>
+<li><code>-a</code>, <code>--all</code>: Display all sockets.</li>
+<li><code>-u</code>, <code>--udp</code>: Display only UDP sockets.</li>
+<li><code>-d</code>, <code>--dccp</code>: Display only DCCP sockets.</li>
+<li><code>-w</code>, <code>--raw</code>: Display only RAW sockets</li>
+<li><code>-x</code>, <code>--unix</code>: Display only Unix domain sockets.</li>
+<li><code>-4</code>, <code>--ipv4</code>: Display only IP version 4 sockets (alias for <code>-f inet</code>).</li>
+<li><code>-6</code>, <code>--ipv6</code>: Display only IP version 6 sockets (alias for <code>-f inet6</code>).</li>
+<li><code>-0</code>, <code>--packet</code>: Display PACKET sockets.</li>
+</ul>
+<p>默认下，<code>-t</code> 选项只会列出 <code>ESTABLISHED</code> 和 <code>CONNECTED</code> 状态的连接，需要 <code>-a</code> 选项来列出其他的</p>
+<div class="highlight"><pre><span></span>$ ss -tae
+State     Recv-Q     Send-Q          Local Address:Port             Peer Address:Port                                                 
+LISTEN    <span class="m">0</span>          <span class="m">128</span>                   <span class="m">0</span>.0.0.0:ssh                   <span class="m">0</span>.0.0.0:*          ino:14521 sk:32 &lt;-&gt;                       
+LISTEN    <span class="m">0</span>          <span class="m">128</span>                   <span class="m">0</span>.0.0.0:llmnr                 <span class="m">0</span>.0.0.0:*          uid:195 ino:13445 sk:33 &lt;-&gt;               
+LISTEN    <span class="m">0</span>          <span class="m">128</span>                      <span class="o">[</span>::<span class="o">]</span>:ssh                      <span class="o">[</span>::<span class="o">]</span>:*          ino:14528 sk:35 v6only:1 &lt;-&gt;              
+LISTEN    <span class="m">0</span>          <span class="m">128</span>                      <span class="o">[</span>::<span class="o">]</span>:llmnr                    <span class="o">[</span>::<span class="o">]</span>:*          uid:195 ino:13448 sk:36 v6only:1 &lt;-&gt;   
+</pre></div>
+
+
+<h4><code>ss -m</code> 显示 socket 的内存占用</h4>
+<ul>
+<li><code>-m</code>, <code>--memory</code>: Show socket memory usage.</li>
+</ul>
+<div class="highlight"><pre><span></span>$ ss -uam
+State        Recv-Q        Send-Q                                 Local Address:Port                          Peer Address:Port       
+
+UNCONN       <span class="m">0</span>             <span class="m">0</span>                                      <span class="m">127</span>.0.0.53%lo:domain                             <span class="m">0</span>.0.0.0:*          
+         skmem:<span class="o">(</span>r0,rb212992,t0,tb212992,f0,w0,o0,bl0,d0<span class="o">)</span>                                                     
+</pre></div>
+
+
+<h4><code>ss -s</code> 显示统计信息</h4>
+<ul>
+<li><code>-s</code>, <code>--summary</code>: Print summary statistics. This option does not parse socket lists obtaining summary from various sources. It is useful when amount of sockets is so huge that parsing <code>/proc/net/tcp</code> is painful.</li>
+</ul>
+<div class="highlight"><pre><span></span>$ ss -s
+Total: <span class="m">132</span>
+TCP:   <span class="m">8</span> <span class="o">(</span>estab <span class="m">1</span>, closed <span class="m">0</span>, orphaned <span class="m">0</span>, timewait <span class="m">0</span><span class="o">)</span>
+
+Transport Total     IP        IPv6
+RAW   <span class="m">1</span>         <span class="m">0</span>         <span class="m">1</span>        
+UDP   <span class="m">5</span>         <span class="m">3</span>         <span class="m">2</span>        
+TCP   <span class="m">8</span>         <span class="m">6</span>         <span class="m">2</span>        
+INET      <span class="m">14</span>        <span class="m">9</span>         <span class="m">5</span>        
+FRAG      <span class="m">0</span>         <span class="m">0</span>         <span class="m">0</span>             
+</pre></div>
+
+
+<h4><code>ss -lp | grep &lt;port&gt;</code> 显示占用端口的进程</h4>
+<ul>
+<li><code>-l</code>, <code>--listening</code>: Display listening sockets.</li>
+<li><code>-p</code>, <code>--processes</code>: Show process using socket.</li>
+<li><code>-n</code>, <code>--numeric</code>: Do now try to resolve service names.</li>
+<li><code>-r</code>, <code>--resolve</code>: Try to resolve numeric address/ports.</li>
+</ul>
+<div class="highlight"><pre><span></span>$ ss -lp <span class="p">|</span> grep <span class="m">22</span>
+<span class="c1"># 这样是没有结果的，因为显示的是 ssh 而不是 22。参考上面 `ss -ta` 的返回结果</span>
+
+$ ss -lpn <span class="p">|</span> grep <span class="m">22</span>  <span class="c1"># 不进行解析</span>
+<span class="c1"># 省略</span>
+</pre></div>
+
+
+<h4><code>ss -o state established '( dport = :http or sport = :http )'</code> 显示所有状态为 Established 的 HTTP 连接，并且显示 timer 信息</h4>
+<ul>
+<li><code>-o</code>, <code>--options</code>: Show timer information.</li>
+</ul>
+<p><code>ss</code> 命令除了上述提到或者没提到的参数之外，还可以添加过滤条件。不过需要注意格式是参数在前，过滤条件在后</p>
+<p><code>state established</code> 便是一个过滤条件，筛选所有 <code>ESTABLISHED</code> 状态的连接</p>
+<p><code>state</code> 可以是</p>
+<ul>
+<li><code>established</code></li>
+<li><code>syn-sent</code></li>
+<li><code>syn-recv</code></li>
+<li><code>fin-wait-1</code></li>
+<li><code>fin-wait-2</code></li>
+<li><code>time-wait</code></li>
+<li><code>closed</code></li>
+<li><code>close-wait</code></li>
+<li><code>last-ack</code></li>
+<li><code>listening</code></li>
+<li><code>closing</code></li>
+<li><code>all</code> : All of the above states</li>
+<li><code>connected</code> : All the states except for <code>listening</code> and <code>closed</code></li>
+<li><code>synchronized</code> : All the <code>connected</code> states except for <code>syn-sent</code></li>
+<li><code>bucket</code> : Show states, which are maintained as minisockets, i.e. <code>time-wait</code> and <code>syn-recv</code>.</li>
+<li><code>big</code> : Opposite to <code>bucket</code> state.</li>
+</ul>
+<p>因为诸如 <code>syn-sent</code>、<code>syn-recv</code> 等状态停留的时间非常短，所以大部分情况下无发观测到。可以配合 <code>watch</code> 命令进行实时监测</p>
+<div class="highlight"><pre><span></span>watch -n 1 &quot;ss -t4 state syn-sent&quot;
+</pre></div>
+
+
+<p><code>'( dport = :http or sport = :http )'</code> 可以对目标端口源端口进行过滤，支持协议名称和端口的数字表示。<code>dst</code> 和 <code>src</code> 可以过滤目标地址和源地址</p>
+<div class="highlight"><pre><span></span>$ ss -o state established <span class="s1">&#39;( dport = :http or sport = :http )&#39;</span>                                                              
+Netid Recv-Q  Send-Q                          Local Address:Port                                   Peer Address:Port                  
+tcp   <span class="m">0</span>       <span class="m">0</span>          <span class="o">[</span><span class="m">2400</span>:8500:1301:735:133:130:97:89<span class="o">]</span>:56890                    <span class="o">[</span><span class="m">2404</span>:6800:4004:808::2004<span class="o">]</span>:http                  
+timer:<span class="o">(</span>keepalive,59sec,0<span class="o">)</span>
+</pre></div>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

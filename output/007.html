@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>007 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/007.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="本周关注 Python 的命令行参数与环境变量，大体是在翻译文档。版本为 Python 3.7.0 Python Command line and environment Command line Interface options -c &lt;command&gt; 执行 command 中的 Python 代码，command 可以是一个或者多个由换行符分隔的语句，与正常代码一样前导空白符是具有意义的。指定此参数后，sys.argv 的第一个元素将是 -c，并且当前目录会被添加至 sys.path 的开头 -m &lt;module-name&gt; 从 sys.path 中搜索指定名称的模块，然后作为 __main__ 执行。因为参数是模块的名称，所以不需要提供文件扩展名 .py。模块的名称应当是合法的 …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="007"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/007.html"/>
+        <meta property="og:description" content="本周关注 Python 的命令行参数与环境变量，大体是在翻译文档。版本为 Python 3.7.0 Python Command line and environment Command line Interface options -c &lt;command&gt; 执行 command 中的 Python 代码，command 可以是一个或者多个由换行符分隔的语句，与正常代码一样前导空白符是具有意义的。指定此参数后，sys.argv 的第一个元素将是 -c，并且当前目录会被添加至 sys.path 的开头 -m &lt;module-name&gt; 从 sys.path 中搜索指定名称的模块，然后作为 __main__ 执行。因为参数是模块的名称，所以不需要提供文件扩展名 .py。模块的名称应当是合法的 …"/>
+        <meta property="article:published_time" content="2018-07-07" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/007.html"
+                       rel="bookmark"
+                       title="Permalink to 007">
+                        007
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-07-07T00:00:00+08:00"> Sat 07 July 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>本周关注 Python 的命令行参数与环境变量，大体是在翻译文档。版本为 Python 3.7.0</p>
+<h2><a href="https://docs.python.org/3/using/cmdline.html">Python Command line and environment</a></h2>
+<h3>Command line</h3>
+<h4>Interface options</h4>
+<ul>
+<li>
+<p><code>-c &lt;command&gt;</code> 执行 command 中的 Python 代码，command 可以是一个或者多个由换行符分隔的语句，与正常代码一样前导空白符是具有意义的。指定此参数后，<code>sys.argv</code> 的第一个元素将是 <code>-c</code>，并且当前目录会被添加至 <code>sys.path</code> 的开头</p>
+</li>
+<li>
+<p><code>-m &lt;module-name&gt;</code> 从 <code>sys.path</code> 中搜索指定名称的模块，然后作为 <code>__main__</code> 执行。因为参数是模块的名称，所以不需要提供文件扩展名 <code>.py</code>。模块的名称应当是合法的 Python 模块名称，但是实际的实现并没有强制这一点，比如它可以运行使用包含连字符 <code>-</code> 的名称。参数也可以是包名，这时解释器会去执行 <code>&lt;pkg&gt;.__main__</code>。指定此参数后，<code>sys.argv</code> 的第一个元素将是模块文件的路径，并且当前目录将会被添加至 <code>sys.path</code> 的开头</p>
+</li>
+<li>
+<p><code>-</code> 从标准输入(<code>sys.stdin</code>)读取 command，如果标准输入是 terminal，则隐含 <code>-i</code> 参数。指定此参数后，<code>sys.argv</code> 的第一个元素为 <code>"-"</code>，并且当前目录将会被添加到 <code>sys.path</code> 的开头</p>
+</li>
+<li>
+<p><code>&lt;script&gt;</code> 可以为一个 Python 脚本的路径，包含此文件的目录将会被添加到 <code>sys.path</code> 的开头；或者含有 <code>__main__.py</code> 的目录，或者含有 <code>__main__.py</code> 的 zip 压缩包，此时 <code>&lt;script&gt;</code> 将被添加到 <code>sys.path</code> 的开头</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span>$ /home/a/b# python __main__.py
+/home/a/b
+$ /home/a# python b/__main__.py
+/home/a/b
+$ /home/a# python b
+b
+$ /home# python a/b
+a/b
+$ /home# python a/b/__main__.py
+/home/a/b
+</pre></div>
+
+
+<h4>Generic options</h4>
+<ul>
+<li><code>-?</code></li>
+<li><code>-h</code></li>
+<li>
+<p><code>--help</code> 输出所有命令行选项的简要说明</p>
+</li>
+<li>
+<p><code>-V</code></p>
+</li>
+<li><code>--version</code> 显示 Python 的版本信息，3.6 后可以通过 <code>-VV</code> 显示更详细的编译信息(其实就是进入 REPL 时显示的那个)</li>
+</ul>
+<h4>Miscellaneous options</h4>
+<ul>
+<li>
+<p><code>-b</code> 当 <code>bytes</code>/<code>bytearray</code> 和 <code>str</code> 或者 <code>bytes</code> 和 <code>int</code> 进行比较时抛出 warning；<code>-bb</code> 则会抛出异常</p>
+</li>
+<li>
+<p><code>-B</code> 不会生成 <code>pyc</code> 文件</p>
+</li>
+<li>
+<p><code>--check-hash-based-pycs default|always|never</code>
+Control the validation behavior of hash-based .pyc files. See Cached bytecode invalidation. When set to default, checked and unchecked hash-based bytecode cache files are validated according to their default semantics. When set to always, all hash-based .pyc files, whether checked or unchecked, are validated against their corresponding source file. When set to never, hash-based .pyc files are not validated against their corresponding source files. The semantics of timestamp-based .pyc files are unaffected by this option.</p>
+</li>
+<li>
+<p><code>-d</code> 输出调试信息，另见 <code>PYTHONDEBUG</code></p>
+</li>
+<li><code>-E</code> 忽略所有的 <code>PYTHON*</code> 环境变量</li>
+<li><code>-i</code> 执行脚本或者 command(<code>-c</code>) 后进入交互模式。<code>PYTHONSTARTUP</code> 中指定的文件不会被读取</li>
+<li><code>-I</code> 以隔离模式运行 Python。忽略所有的 <code>PYTHON*</code> 环境变量并且 <code>sys.path</code> 不会包含脚本所在目录或者 user site-packages 目录</li>
+<li><code>-O</code> 移除所有的 <code>assert</code> 语句并且 <code>__debug__</code> 常量为 <code>True</code>。此时编译后的字节码文件名后缀为 <code>.opt-1.pyc</code></li>
+<li><code>-OO</code> 移除所有的 <code>assert</code> 语句，抛弃 docstring 并且 <code>__debug__</code> 常量为 <code>True</code>。此时编译后的字节码文件名后缀为 <code>.opt-2.pyc</code></li>
+<li><code>-q</code> 交互模式不显示 copyright 和版本信息</li>
+<li><code>-R</code> 开启 hash randomization。因为默认开启所以只有在环境变量 <code>PYTHONHASHSEED</code> 为 0 的时候这个选项才有效果</li>
+<li><code>-s</code> 不向 <code>sys.path</code> 添加 <a href="https://docs.python.org/3/library/site.html#site.USER_SITE">user site-packages</a> 目录</li>
+<li><code>-S</code> 禁止启动时导入 <code>site</code> 模块。<code>site</code> 模块会修改 <code>sys.path</code> 并且添加一些 <a href="https://docs.python.org/3/library/constants.html#constants-added-by-the-site-module">built-in constants</a> 比如 <code>exit</code></li>
+<li><code>-u</code> 强制 stdout 和 stderr 流不使用缓冲，另见 <code>PYTHONUNBUFFERED</code></li>
+<li><code>-v</code> 每次对模块进行初始化时都会打印信息，显示加载它的位置，同时在退出时提供模块的析构信息， 另见 <code>PYTHONVERBOSE</code>。如果指定 <code>-vv</code> 则会为搜索模块时检查的每个文件都打印信息</li>
+<li><code>-W arg</code> Warning 控制。Python 的 warning 机制默认打印 warning 信息到 <code>sys.stderr</code>。典型的 warning 信息格式如下:</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="n">file</span><span class="o">:</span><span class="n">line</span><span class="o">:</span> <span class="n">category</span><span class="o">:</span> <span class="n">message</span>
+</pre></div>
+
+
+<p>默认每条 warning 只会打印一次(比如在循环内部)。可以给定多个 <code>-W</code> 选项，当有多个选项符合匹配时，将执行最后一个匹配向。虽然无效的 <code>-W</code> 选项将会被忽略，但是在打印第一个 warning 时也会打印有关于无效选项的 warning 信息。另外 warning 可以通过 <code>PYTHONWARNINGS</code> 环境变量和 <code>warnings</code> 模块进行控制</p>
+<div class="highlight"><pre><span></span>-Wdefault  # Warn once per call location
+-Werror    # Convert to exceptions
+-Walways   # Warn every time
+-Wmodule   # Warn once per calling module
+-Wonce     # Warn once per Python process
+-Wignore   # Never warn
+
+# 可以简写为 -Wi -Wd -Wa -We 等
+</pre></div>
+
+
+<ul>
+<li><code>-x</code> 跳过源代码的第一行，允许使用非 Unix 格式的 <code>#!cmd</code></li>
+<li><code>-X</code> 保留用于各种特定于实现的选项。CPython 当前定义如下：</li>
+<li><code>-X faulthandler</code> 开启 <a href="https://docs.python.org/3/library/faulthandler.html#example"><code>faulthandler</code></a></li>
+<li><code>-X showrefcount</code> 程序结束时或者交互式下每条语句执行后打印书总共的引用计数和占用的内存块。需要在编译时开启 debug</li>
+<li><code>-X tracemalloc</code> 使用 <code>tracemalloc</code> 模块去跟踪 Python 的内存分配。默认情况下，只有最近的栈帧会被存储。可以使用 <code>-X tracemalloc=NFRAME</code> 调整阈值</li>
+<li><code>-X showalloccount</code> 当程序结束时打印每个类型所分配对象的总数量。需要编译时指定 <code>COUNT_ALLOCS</code></li>
+<li><code>-X importtime</code> 显示每个导入操作的耗时，比如 <code>python3 -X importtime -c 'import asyncio'</code>，另见 <code>PYTHONPROFILEIMPORTTIME</code></li>
+<li><code>-X dev</code> 开启 CPython 的 "development mode"<ul>
+<li>Add default warning filter, as <code>-W default</code>.</li>
+<li>Install debug hooks on memory allocators: see the <code>PyMem_SetupDebugHooks()</code> C function.</li>
+<li>Enable the <code>faulthandler</code> module to dump the Python traceback on a crash.</li>
+<li>Enable <code>asyncio</code> debug mode.</li>
+<li>Set the dev_mode attribute of <code>sys.flags</code> to True</li>
+</ul>
+</li>
+<li><code>-X utf8</code> 启动 UTF-8 模式</li>
+<li><code>-X utf8=0</code> 显示关闭 UTF-8 模式</li>
+</ul>
+<h3>Environment variables</h3>
+<p>环境变量会影响 Python 的行为，他们会在除了 <code>-E</code> 和 <code>-I</code> 外的所有命令行参数处理前得到处理。通常命令行参数会覆盖掉产生冲突的环境变量</p>
+<ul>
+<li>
+<p><code>PYTHONHOME</code> 更改 Python 标准库的位置。默认情况下会在 <code>prefix/lib/pythonversion</code> 和 <code>exec_prefix/lib/pythonversion</code> 下搜索。<code>prefix</code> 和 <code>exec_prefix</code> 依赖于安装的目录，通常是 <code>/usr/local</code>。当 <code>PYTHONHOME</code> 被指定为单个目录时，<code>prefix</code> 和 <code>exec_prefix</code> 都将使用此目录。如果要为其分别指定目录，可以将 <code>PYTHONHOME</code> 设置为 <code>prefix:exec_prefix</code> 格式</p>
+</li>
+<li>
+<p><code>PYTHONPATH</code> 添加模块的搜索路径。格式和 shell 的 <code>PATH</code> 相同，不存在的目录将被忽略。除了普通目录外，可以是包含 Python 模块的 zip 文件。默认的搜索路径依赖于安装位置，通常以 <code>prefix/lib/pythonverion</code> 开头。另见 <code>PYTHONHOME</code>，它总是会被添加到 <code>PYTHONPATH</code></p>
+</li>
+<li>
+<p><code>PYTHONSTARTUP</code> 如果这是一个可读文件的名称，那么在交互模式显示第一个 prompt 前文件内的代码将会被执行。该文件中的代码和交互式命令运行在同一个命名空间下，以便在交互式命令中使用其定义与导入的对象。可以在此文件中修改 <code>sys.ps1</code> 和 <code>sys.ps2</code> 或者 <code>sys.__interactivehook__</code></p>
+</li>
+<li>
+<p><code>PYTHONOPTIMIZE</code> 如果被设置为一个非空字符串则等效于 <code>-O</code> 选项；如果被设置为一个整数 n 则等效于 <code>-O{n}</code></p>
+</li>
+<li>
+<p><code>PYTHONBREAKPOINT</code> 如果设置了这个选项，它的名称应当为以 <code>.</code> 分隔的 callable。包含这个 callable 的模块会先被导入，然后由 <code>sys.breakpointhook()</code> 所调用(<code>breakpoint()</code> 会调用 <code>sys.breakpointhook()</code>)。如果不设置或者为空字符串，那么等效于 <code>pdf.set_trace</code>。如果设置为字符串 <code>"0"</code>，那么 <code>sys.breakpointhook()</code> 会直接返回，不执行任何操作</p>
+</li>
+<li>
+<p><code>PYTHONDEBUG</code> 如果被设置为一个非空字符串则等效于 <code>-d</code> 选项。如果设置为一个整数 则等效于 <code>-d{n}</code></p>
+</li>
+<li>
+<p><code>PYTHONINSPECT</code> 如果被设置为一个非空字符串则等效于 <code>-i</code>。这个环境变量可以在 Python 代码中通过 <code>os.environ</code> 修改从而强制在程序结束时进入交互模式</p>
+</li>
+<li>
+<p><code>PYTHONUNBUFFERED</code> 如果被设置为一个非空字符串则等效于 <code>-u</code> 选项</p>
+</li>
+<li>
+<p><code>PYTHONVERBOSE</code> 如果被设置为一个非空字符串则等效于 <code>-v</code> 选项。如果设置为一个整数 则等效于 <code>-v{n}</code></p>
+</li>
+<li>
+<p><code>PYTHONCASEOK</code> OSX 和 Win 环境下有效，<code>import</code> 语句将大小写不敏感</p>
+</li>
+<li>
+<p><code>PYTHONDONTWRITEBYTECODE</code> 如果被设置为非空字符串，Python 不会生成 <code>.pyc</code> 文件。等效于 <code>-B</code> 选项</p>
+</li>
+<li>
+<p><code>PYTHONHASHSEED</code> 如果这个变量没有被设置或者被设置为 <code>random</code>，<code>str</code>、<code>bytes</code>、<code>datetime</code> 对象哈希值的种子将为一个随机值。如果 <code>PYTHONHASHSEED</code> 被设置为一个整数(0 到 4294967295 之间，左闭右开)，将使用固定的种子值。特别地，0 表示禁用哈希随机。<code>PYTHONHASHSEED</code> 的目的是允许可重复的哈希，例如解释器本身的自测，或允许一组 Python 进程共享哈希值</p>
+</li>
+<li>
+<p><code>PYTHONIOENCODING</code> 如果在运行解释器之前设置了它，将覆盖 stdin/stdout/stderr 的编码。格式为 <code>encodingname:errorhandler</code>。二者都是可选的，且和 <code>str.encode()</code> 具有相同的含义。特别的对于 stderr，<code>errorhandler</code> 部分一定会被忽略，永远是 <code>backslashreplace</code></p>
+</li>
+<li>
+<p><code>PYTHONNOUSERSITE</code> 如果被设置，Python 不会向 <code>sys.path</code> 添加 <a href="https://docs.python.org/3/library/site.html#site.USER_SITE">user site-packages</a> 目录</p>
+</li>
+<li>
+<p><code>PYTHONUSERBASE</code> 定义 <a href="https://docs.python.org/3/library/site.html#site.USER_BASE"><code>user base directory</code></a></p>
+</li>
+<li>
+<p><code>PYTHONEXECUTABLE</code> OSX 下的参数，会覆盖 <code>sys.argv[0]</code></p>
+</li>
+<li>
+<p><code>PYTHONWARNINGS</code> 等效于 <code>-W</code> 参数。如果被设置为逗号分隔的多个字符串，则等效于指定 <code>-W</code> 多次</p>
+</li>
+<li>
+<p><code>PYTHONFAULTHANDLER</code> 如果被设置为非空字符串，<code>faulthandler.enable()</code> 将会在启动时被调用。这将为
+<code>SIGSEGV</code>, <code>SIGFPE</code>, <code>SIGABRT</code>, <code>SIGBUS</code>， <code>SIGILL</code> 信号注册特殊的处理函数来 dump Python 的 trackback。等效于 <code>-X faulthanlder</code> 选项</p>
+</li>
+<li>
+<p><code>PYTHONTRACEMALLOC</code> 如果被设置为非空字符串，将使用 <code>tracemalloc</code> 模块去跟踪 Python 的内存分配。此环境变量的值将决定存储在 trackback 中栈帧的上限。比如 <code>PYTHONTRACEMALLOC=1</code> 将仅存储最近的栈帧</p>
+</li>
+<li>
+<p><code>PYTHONPROFILEIMPORTTIME</code> 如果被设置为非空字符串，Python 将显示 <code>import</code> 操作的耗时。等效于 <code>-X importtime</code> 选项</p>
+</li>
+<li>
+<p><code>PYTHONASYNCIODEBUG</code> 如果被设置为非空字符串，则开启 <code>asyncio</code> 模块的调试模式</p>
+</li>
+<li>
+<p><code>PYTHONMALLOC</code> 设置 Python 的内存分配器或者安装调试钩子 <a href="https://docs.python.org/3/using/cmdline.html#envvar-PYTHONMALLOC">参考文档</a></p>
+</li>
+<li>
+<p><code>PYTHONMALLOCSTATS</code> 如果被设置为非空字符串，Python 将在 pymalloc memory allocator 每次创建/销毁 arena 时打印统计信息。如果通过 <code>PYTHONMALLOC</code> 强制使用 <code>malloc()</code> 或者 Python 没有 pymalloc 支持时，这个环境变量将被忽略</p>
+</li>
+<li>
+<p><code>PYTHONLEGACYWINDOWSFSENCODING</code> 仅 Win 可用</p>
+</li>
+<li>
+<p><code>PYTHONLEGACYWINDOWSSTDIO</code> 仅 Win 可用</p>
+</li>
+<li>
+<p><code>PYTHONCOERCECLOCALE</code> 3.7 新增，详见 <a href="https://www.python.org/dev/peps/pep-0538">PEP 538</a></p>
+</li>
+<li>
+<p><code>PYTHONDEVMODE</code> 如果被设置为非空字符串，开启 CPython 的 "development mode"，等同于 <code>-X dev</code></p>
+</li>
+<li>
+<p><code>PYTHONUTF8</code> 3.7 新增，详见 <a href="https://www.python.org/dev/peps/pep-0540">PEP 540</a></p>
+</li>
+<li>
+<p><code>PYTHONTHREADDEBUG</code> 编译 Python 时需要添加 <code>-with-pydebug</code> 才会存在的环境变量，作用是打印线程调试信息</p>
+</li>
+<li>
+<p><code>PYTHONDUMPREFS</code> 编译 Python 时需要添加 <code>-with-pydebug</code> 才会存在的环境变量，作用是在解释器运行结束时输出仍然存活的对象和引用计数</p>
+</li>
+</ul>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

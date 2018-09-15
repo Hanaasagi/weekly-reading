@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>011 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/011.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="关于 /dev/urandom Myths about /dev/urandom If you are unsure about whether you should use /dev/random or /dev/urandom, then probably you want to use the latter. As a general rule, /dev/urandom should be used for everything except long-lived GPG/SSL/SSH keys. 引用自 man 4 unrandom …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="011"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/011.html"/>
+        <meta property="og:description" content="关于 /dev/urandom Myths about /dev/urandom If you are unsure about whether you should use /dev/random or /dev/urandom, then probably you want to use the latter. As a general rule, /dev/urandom should be used for everything except long-lived GPG/SSL/SSH keys. 引用自 man 4 unrandom …"/>
+        <meta property="article:published_time" content="2018-08-19" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/011.html"
+                       rel="bookmark"
+                       title="Permalink to 011">
+                        011
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-08-19T00:00:00+08:00"> Sun 19 August 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>关于 <code>/dev/urandom</code></p>
+<h2><a href="https://www.2uo.de/myths-about-urandom">Myths about /dev/urandom</a></h2>
+<blockquote>
+<p>If you are unsure about whether you should use <code>/dev/random</code> or <code>/dev/urandom</code>, then probably you want to use the latter. As a general rule, /dev/urandom should be used for everything except long-lived GPG/SSL/SSH keys.</p>
+</blockquote>
+<p>引用自 <code>man 4 unrandom</code></p>
+<h3>True randomness</h3>
+<p>在作者看来真正的随机来源于量子效应，但是真实世界中并不需要这种完美的随机数。因为几乎所有我们使用的加密算法都不符合信息理论安全性(information-theoretic security)，他们仅能提供提供计算安全性(computational security)。这两者的不同之处在于信息理论安全算法就算攻击者具有无限的计算能力也无法破解。现在之所以使用诸如 AES，RSA 这些仅保证计算安全的算法是因为他们在一定时间内是无法进行被暴力破解的。换句话说，即使你获得了真正的随机数将他们用于这些加密算法中也只能保证计算安全性。实际中，只要无法预测下一个数字，便可认为是随机的</p>
+<h3>Structure of Linux's random number generator</h3>
+<p>一般认知:</p>
+<p><img alt="structure-wrong" src="https://i.imgur.com/NgKQn8J.png"></p>
+<p>来源于外部的随机值被收集，计算熵(entropy)后一方面经过 de-biasing 和 whitening 处理，添加到内核的熵池(entropy pool)中，另一方面会加到内部的熵计数中。对于 <code>/dev/random</code> 来说，如果熵计数(entropy count)大于所请求的数字(判断是否积攒了足够的随机性)，则会从池中取出随机数，并减少熵计数；否则会阻塞直至满足条件。所以说 <code>/dev/random</code> 产生的随机数就是来源于外界的那些，只是多了一些预处理。<code>/dev/urandom</code> 也会做同样的事情，只是它在当前的熵计数不满足要求时不会阻塞，而是会通过 CSPRNG(cryptographically secure pseudorandom number generator,密码学安全的伪随机数生成器) 来获取"低质量"的随机数</p>
+<p>在这种模式下，由于 CSPRNG 只会在首次从池中拿随机数作为中种子(seed)，避免 <code>/dev/urandom</code> 是合乎情理的</p>
+<p>真实情况:</p>
+<p><img alt="structure-real" src="https://i.imgur.com/Zh2EYu2.png"></p>
+<p>第一个区别是 CSPRNG 并不作为在熵计数不足时的替代策略，而是整个过程中不可缺少的一部分。每个来源于外部的随机数都会经过 CSPRNG 处理，然后放到随机数池中。第二个区别是熵值是估计的，Linux 内核通过事件的到达时间来估计熵。<code>/dev/random</code> 会从池中获取随机数，而 <code>/dev/urandom</code> 则通过 CSPRNG 获取，但它们的直接来源是相同的。外界不断输入的熵能提供更多的随机性，它会重置随机数生成器的种子值(seed)。因为对于 CSPRNG 来说，固定的种子值所产生的随机数是可以预测的</p>
+<p>与 FreeBSD 不同，Linux 上的 <code>/dev/urandom</code> 不会发生阻塞，安全性取决与一些初始的随机种子。在 Kernel 有机会收集熵之前，Linux 的 <code>/dev/urandom</code> 会返回一些不是那么随机的数字，比如系统启动时。而 FreeBSD 则不同，它没有 <code>/dev/random</code> 和 <code>/dev/urandom</code> 的区别，二者是同一个设备。首次调用 <code>/dev/random</code> 会阻塞直至收集到足够多的熵，之后便再也不会阻塞。Linux 3.17 后，Linux 添加了一个新的系统调用 <code>getrandom(2)</code>。它源自于 OpenBSD 的 <code>getentropy(2)</code>。这个系统调用会阻塞直至收集到足够的熵，然后便不会再发生阻塞。一些 Linux 的发行版会在系统关闭时保存一些随机数，以便下次启动时使用</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

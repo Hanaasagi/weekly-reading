@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>003 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/003.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="ASGI (Asynchronous Server Gateway Interface) Specification 需要注意，我阅读的是 Version: 2.0 (2017-11-28)。ASGI 在先前版本是有一个 channel 层的，现在被拿到外面去了。上一个版本有 中文翻译 目的 ASGI 的目的是提出一种规范，用于处理 Web 服务器和 Python 应用程序间的多种常见协议格式(HTTP，HTTP/2，WebSocket) 依据 WSGI 为 Python 框架和 Web Server 的选择提供了极大的灵活性。然而它的设计与 HTTP 的请求和响应绑在了一起。目前一些非此格式的协议也逐渐占领重要的地位，比如 WebSocket。ASGI 尝试去保留一个极简的应用接口。但提供一个能够从不同应用线程/进程随时发送/接收数据的抽象 …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="003"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/003.html"/>
+        <meta property="og:description" content="ASGI (Asynchronous Server Gateway Interface) Specification 需要注意，我阅读的是 Version: 2.0 (2017-11-28)。ASGI 在先前版本是有一个 channel 层的，现在被拿到外面去了。上一个版本有 中文翻译 目的 ASGI 的目的是提出一种规范，用于处理 Web 服务器和 Python 应用程序间的多种常见协议格式(HTTP，HTTP/2，WebSocket) 依据 WSGI 为 Python 框架和 Web Server 的选择提供了极大的灵活性。然而它的设计与 HTTP 的请求和响应绑在了一起。目前一些非此格式的协议也逐渐占领重要的地位，比如 WebSocket。ASGI 尝试去保留一个极简的应用接口。但提供一个能够从不同应用线程/进程随时发送/接收数据的抽象 …"/>
+        <meta property="article:published_time" content="2018-05-18" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/003.html"
+                       rel="bookmark"
+                       title="Permalink to 003">
+                        003
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-05-18T00:00:00+08:00"> Fri 18 May 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h3><a href="https://github.com/django/asgiref/blob/master/specs/asgi.rst">ASGI (Asynchronous Server Gateway Interface) Specification</a></h3>
+<p>需要注意，我阅读的是 Version: 2.0 (2017-11-28)。ASGI 在先前版本是有一个 channel 层的，现在被拿到外面去了。上一个版本有 <a href="https://blog.ernest.me/post/asgi-draft-spec-zh">中文翻译</a></p>
+<h4>目的</h4>
+<p>ASGI 的目的是提出一种规范，用于处理 Web 服务器和 Python 应用程序间的多种常见协议格式(HTTP，HTTP/2，WebSocket)</p>
+<h4>依据</h4>
+<p>WSGI 为 Python 框架和 Web Server 的选择提供了极大的灵活性。然而它的设计与 HTTP 的请求和响应绑在了一起。目前一些非此格式的协议也逐渐占领重要的地位，比如 WebSocket。ASGI 尝试去保留一个极简的应用接口。但提供一个能够从不同应用线程/进程随时发送/接收数据的抽象。</p>
+<p>它通过将协议转划分为两部分。一部分是用于通信的标准化接口，另一部分是每种协议的标准消息格式。另外此设计的另一部分是确保有一个简单有效的途径来使用现有的 WSGI Server 和应用程序。</p>
+<h4>概览</h4>
+<p>ASGI 有两个不同的组件：</p>
+<ul>
+<li>协议服务器(protocol server):将 socket 转换为连接和事件消息(event message)</li>
+<li>应用(application):位于协议服务器内部，每个连接实例化一次，会对事件消息进行处理</li>
+</ul>
+<p>与 WSGI 不同，ASGI 的连接有两个独立部分：</p>
+<ul>
+<li>连接作用域(connection scope)</li>
+<li>事件(events)</li>
+</ul>
+<p>实例化的应用仅存活在连接的生命周期内。</p>
+<h4>实现细节</h4>
+<h5>连接作用域(Connection Scope)</h5>
+<p>从用户到 ASGI 应用的每个连接都将导致为该连接创建一个应用实例。此应用实例能存活多久，创建时会得到什么信息，这些便被称为连接作用域(Connection Scope)。比如在 HTTP 协议下，连接作用域就是一个请求。但在 WebSocket 下，连接作用域从 socket 连接持续到 socket 关闭。作用域中包含了 WebSocket 路径等信息，传入的消息则会以事件的形式出现。</p>
+<p><code>scope</code> 和 WSGI 中的 <code>environ</code> 有点类似</p>
+<p>需要注意</p>
+<blockquote>
+<p>Applications cannot communicate with the client when they are initialized and given their connection scope; they must wait until their event loop is entered, and depending on the protocol spec, may have to wait for an initial opening message.</p>
+</blockquote>
+<h5>事件(Events)</h5>
+<p>ASGI 将协议分解为应用必须响应的多个事件。对于 HTTP 来说便是 <code>http.request</code> 和 <code>http.disconnect</code>。而对于 WebSocket 来说则是 <code>websocket.connect</code>，<code>websocket.receive</code>，<code>websocket.receive</code>，<code>websocket.disconnect</code>。</p>
+<p>事件是 <code>dict</code> 类型。它在最外层级包含一个 <code>type</code> 与对应消息类型(<code>str</code>类型)的键值对。用户可以自定义新的消息类型。</p>
+<p>由于消息可能通过网络发送，所以需要支持序列化。因此仅允许包含以下类型：</p>
+<ul>
+<li>Byte strings</li>
+<li>Unicode strings</li>
+<li>Integers (within the signed 64 bit range)</li>
+<li>Floating point numbers (within the IEEE 754 double precision range, no Nan or infinities)</li>
+<li>Lists (tuples should be encoded as lists)</li>
+<li>Dicts (keys must be unicode strings)</li>
+<li>Booleans</li>
+<li><code>None</code></li>
+</ul>
+<h5>应用(Applications)</h5>
+<p>用类来表示最简单，不过也可以 callable 返回 callable 的形式</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Application</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scope</span> <span class="o">=</span> <span class="n">scope</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receive</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+
+
+<p>每当有新的连接到达协议服务器(protocol server)时，就会创建一个新的应用序实例</p>
+<ul>
+<li><code>scope</code> 参数为连接作用域。也是一个包含类型键值对的 <code>dict</code></li>
+<li><code>receive</code>, an awaitable callable that will yield a new Event when one is available</li>
+<li><code>send</code>, an awaitable callable that will return once the send has been completed</li>
+</ul>
+<h5>协议规范(Protocol Specfications)</h5>
+<p><a href="https://github.com/django/asgiref/blob/master/specs/www.rst">HTTP and WebSocket</a></p>
+<h5>扩展(Extensions)</h5>
+<p>通过在 <code>scope</code> 中添加 <code>extensions</code> 项实现扩展</p>
+<h3><a href="https://www.youtube.com/watch?v=-7taKQnndfo">Taking Django Asyc</a></h3>
+<p>PyCon 2018 的一个视频，演讲者是 Channel 的核心开发者 Andrew Godwin</p>
+<p>Channel 1.0 的架构</p>
+<p><img alt="Channel-1.0" src="https://i.imgur.com/nE5jeZT.png"></p>
+<p>Channel 2.0 的架构</p>
+<ul>
+<li>Asyncio-navtive</li>
+<li>Python 3.5 and up</li>
+<li>Supports async coroutines and sync threads</li>
+</ul>
+<p><img alt="Channel-2.0" src="https://i.imgur.com/uJdcsKF.png"></p>
+<p>因为 Python 中的 async 和 sync api 的割裂，所以 Channel 的开发面临了两个问题</p>
+<ul>
+<li>sync to async</li>
+<li>async to sync</li>
+</ul>
+<h4>sync to async</h4>
+<p>解决方法是 run in threads</p>
+<p>可以使用 <code>concurrent.futures.ThreadPoolExecutor</code></p>
+<div class="highlight"><pre><span></span><span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+<span class="n">future</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">threadpool</span><span class="p">,</span>
+    <span class="n">func</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">return</span> <span class="n">await</span> <span class="n">future</span>
+</pre></div>
+
+
+<p>这种方式用于</p>
+<ul>
+<li>Calling the ORM</li>
+<li>Rendering templates</li>
+<li>Handling off to Django views</li>
+</ul>
+<h4>async to sync</h4>
+<p>通过利用 main thread 中的 loop 去运行，所以这里实际上饶了一圈</p>
+<div class="highlight"><pre><span></span>sub thread -&gt; main thread -&gt; sub thread
+</pre></div>
+
+
+<p>Python 允许你在每个线程中去创建一个 loop，但这样做效率不好</p>
+<p>此部分在视频的 <a href="https://youtu.be/-7taKQnndfo?t=17m46s">17:46</a> 处</p>
+<h4>How to make WSGI async?</h4>
+<p>Channel 使用了ASGI 而不是 WSGI</p>
+<h4>Do we want to have everyone writing async?</h4>
+<p>Channel 的设计理念是你可以写 sync 也可以写 async 的代码</p>
+<p>所以 Channel 的设计是这样的</p>
+<p><img alt="Channel-arch" src="https://i.imgur.com/yoXQ9LN.png"></p>
+<blockquote>
+<p>Both async and sync code are useful!</p>
+</blockquote>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

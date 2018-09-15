@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>012 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/012.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="Strip 的滚动 API 设计经验 APIs as infrastructure: future-proofing Stripe with versioning 如果某个 API 返回一个名为 verified 的 boolean 类型字段来表示账户状态，那么用户可能会编写出如下的代码 if bank_account[:verified] ... else ... end 但假如在后续迭代中将 verified 替换为包含 verified 的 status 字段，那么便会影响用户之前所写的代码。这种类型的改变称为 &#34;backwards-incompatible&#34;。为了避免这种情况，之前存在的字段应该继续存在且保持相同的类型和名称。显然这对开发并不友好，但如果要用户更新他们的代码则又需要经过足够的协商 通常的方法是使用版本控制，v1、v2、v3 作为前缀添加在 URL 中或者 HTTP ACCEPT 首部中。OK 还行 …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="012"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/012.html"/>
+        <meta property="og:description" content="Strip 的滚动 API 设计经验 APIs as infrastructure: future-proofing Stripe with versioning 如果某个 API 返回一个名为 verified 的 boolean 类型字段来表示账户状态，那么用户可能会编写出如下的代码 if bank_account[:verified] ... else ... end 但假如在后续迭代中将 verified 替换为包含 verified 的 status 字段，那么便会影响用户之前所写的代码。这种类型的改变称为 &#34;backwards-incompatible&#34;。为了避免这种情况，之前存在的字段应该继续存在且保持相同的类型和名称。显然这对开发并不友好，但如果要用户更新他们的代码则又需要经过足够的协商 通常的方法是使用版本控制，v1、v2、v3 作为前缀添加在 URL 中或者 HTTP ACCEPT 首部中。OK 还行 …"/>
+        <meta property="article:published_time" content="2018-09-09" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/012.html"
+                       rel="bookmark"
+                       title="Permalink to 012">
+                        012
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-09-09T00:00:00+08:00"> Sun 09 September 2018</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Strip 的滚动 API 设计经验</p>
+<h2><a href="https://stripe.com/blog/api-versioning">APIs as infrastructure: future-proofing Stripe with versioning</a></h2>
+<p>如果某个 API 返回一个名为 <code>verified</code> 的 <code>boolean</code> 类型字段来表示账户状态，那么用户可能会编写出如下的代码</p>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">bank_account</span><span class="o">[</span><span class="ss">:verified</span><span class="o">]</span>
+  <span class="o">...</span>
+<span class="k">else</span>
+  <span class="o">...</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>但假如在后续迭代中将 <code>verified</code> 替换为包含 <code>verified</code> 的 <code>status</code> 字段，那么便会影响用户之前所写的代码。这种类型的改变称为 "backwards-incompatible"。为了避免这种情况，之前存在的字段应该继续存在且保持相同的类型和名称。显然这对开发并不友好，但如果要用户更新他们的代码则又需要经过足够的协商</p>
+<p>通常的方法是使用版本控制，<code>v1</code>、<code>v2</code>、<code>v3</code> 作为前缀添加在 URL 中或者 HTTP <code>ACCEPT</code> 首部中。OK 还行，但如果版本间变化太大会导致用户不愿意升级继续使用旧版本的 API。Stripe 使用滚动版本来实现版本控制，这些版本以发布日期来命名，比如 <code>2017-05-24</code>，携带在请求头 <code>Stripe-Version</code> 中。它们虽然也是 "backwards-incompatible" 的，但每个版本仅包含一小组改动，使得升级变得容易。这种方式有点类似于敏捷开发</p>
+<p>但版本控制始终是改善开发人员体验和维护旧版本的额外负担之间的折衷。Stripe API 的每个响应都由 APIResource 类进行描述</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ChargeAPIResource</span>
+  <span class="n">required</span> <span class="ss">:id</span><span class="p">,</span> <span class="nb">String</span>
+  <span class="n">required</span> <span class="ss">:amount</span><span class="p">,</span> <span class="nb">Integer</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>当需要进行 "backwards-incompatible" 的更改时，将其封装在 <em>version change module</em> 中。此模块定义了关于此次更改的文档和转换以及修改的 API 资源类型</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CollapseEventRequest</span> <span class="o">&lt;</span> <span class="no">AbstractVersionChange</span>
+  <span class="n">description</span> <span class="p">\</span>
+    <span class="s2">&quot;Event objects (and webhooks) will now render &quot;</span> <span class="p">\</span>
+    <span class="s2">&quot;`request` subobject that contains a request ID &quot;</span> <span class="p">\</span>
+    <span class="s2">&quot;and idempotency key instead of just a string &quot;</span> <span class="p">\</span>
+    <span class="s2">&quot;request ID.&quot;</span>
+
+  <span class="n">response</span> <span class="no">EventAPIResource</span> <span class="k">do</span>
+    <span class="n">change</span> <span class="ss">:request</span><span class="p">,</span> <span class="ss">type_old</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="ss">type_new</span><span class="p">:</span> <span class="no">Hash</span>
+
+    <span class="n">run</span> <span class="k">do</span> <span class="o">|</span><span class="n">data</span><span class="o">|</span>
+      <span class="n">data</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="ss">:request</span> <span class="o">=&gt;</span> <span class="n">data</span><span class="o">[</span><span class="ss">:request</span><span class="o">][</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>  <span class="c1"># rollback</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>将这些 <em>version change module</em> 与 API 版本进行关联</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VersionChanges</span>
+  <span class="no">VERSIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;2017-05-25&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span>
+      <span class="no">Change</span><span class="o">::</span><span class="no">AccountTypes</span><span class="p">,</span>
+      <span class="no">Change</span><span class="o">::</span><span class="no">CollapseEventRequest</span><span class="p">,</span>
+      <span class="no">Change</span><span class="o">::</span><span class="no">EventAccountToUserID</span>
+    <span class="o">]</span><span class="p">,</span>
+    <span class="s1">&#39;2017-04-06&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="no">Change</span><span class="o">::</span><span class="no">LegacyTransfers</span><span class="o">]</span><span class="p">,</span>
+    <span class="s1">&#39;2017-02-14&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span>
+      <span class="no">Change</span><span class="o">::</span><span class="no">AutoexpandChargeDispute</span><span class="p">,</span>
+      <span class="no">Change</span><span class="o">::</span><span class="no">AutoexpandChargeRule</span>
+    <span class="o">]</span><span class="p">,</span>
+    <span class="s1">&#39;2017-01-27&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="no">Change</span><span class="o">::</span><span class="no">SourcedTransfersOnBts</span><span class="o">]</span><span class="p">,</span>
+    <span class="o">...</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>当生成响应的时候，API 根据当前版本的 APIResource 来格式化数据，然后根据 <code>Stripe-Version</code> 来决定最终的版本，回溯并应用沿途找到 <em>version change module</em>，得到目标版本的 API 响应</p>
+<p><img alt="" src="https://i.imgur.com/addcGiV.png"></p>
+<p>这种方案的另一个优点是易于生成 changelog</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
