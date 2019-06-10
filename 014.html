@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>014 - weekly reading</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://hanaasagi.github.io/weekly-reading/014.html">
+
+        <meta name="author" content="Hanaasagi" />
+        <meta name="description" content="MessagePack specification MessagePack 是一个类似于 JSON 的对象序列化规范。 MessagePack 中有两个概念：类型系统 和 格式 序列化是指通过 MessagePack 类型系统将应用对象转换成 MessagePack 格式数据的过程。 反序列化是指通过 MessagePack 类型系统将 MessagePack 格式数据转换为应用对象的过程。 Serialization: Application objects --&gt; MessagePack type system --&gt; MessagePack formats (byte array) Deserialization: MessagePack formats (byte array) --&gt; MessagePack type system --&gt; Application objects 本文档描述了 MessagePack 类型系统，MessagePack 格式及它们之间的转换。 Type system 类型 Integer …" />
+
+        <meta property="og:site_name" content="weekly reading" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="014"/>
+        <meta property="og:url" content="https://hanaasagi.github.io/weekly-reading/014.html"/>
+        <meta property="og:description" content="MessagePack specification MessagePack 是一个类似于 JSON 的对象序列化规范。 MessagePack 中有两个概念：类型系统 和 格式 序列化是指通过 MessagePack 类型系统将应用对象转换成 MessagePack 格式数据的过程。 反序列化是指通过 MessagePack 类型系统将 MessagePack 格式数据转换为应用对象的过程。 Serialization: Application objects --&gt; MessagePack type system --&gt; MessagePack formats (byte array) Deserialization: MessagePack formats (byte array) --&gt; MessagePack type system --&gt; Application objects 本文档描述了 MessagePack 类型系统，MessagePack 格式及它们之间的转换。 Type system 类型 Integer …"/>
+        <meta property="article:published_time" content="2019-06-10" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:author" content="Hanaasagi" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://hanaasagi.github.io/weekly-reading/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://hanaasagi.github.io/weekly-reading/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://hanaasagi.github.io/weekly-reading/" class="navbar-brand">
+weekly reading            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://hanaasagi.github.io/weekly-reading/014.html"
+                       rel="bookmark"
+                       title="Permalink to 014">
+                        014
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2019-06-10T00:00:00+08:00"> Mon 10 June 2019</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>MessagePack specification</h2>
+<p>MessagePack 是一个类似于 JSON 的对象序列化规范。</p>
+<p>MessagePack 中有两个概念：<strong>类型系统</strong> 和 <strong>格式</strong></p>
+<p>序列化是指通过 MessagePack 类型系统将应用对象转换成 MessagePack 格式数据的过程。</p>
+<p>反序列化是指通过 MessagePack 类型系统将 MessagePack 格式数据转换为应用对象的过程。</p>
+<div class="highlight"><pre><span></span><span class="n">Serialization</span><span class="o">:</span>
+    <span class="n">Application</span> <span class="n">objects</span>
+    <span class="o">--&gt;</span>  <span class="n">MessagePack</span> <span class="n">type</span> <span class="n">system</span>
+    <span class="o">--&gt;</span>  <span class="n">MessagePack</span> <span class="n">formats</span> <span class="o">(</span><span class="n">byte</span> <span class="n">array</span><span class="o">)</span>
+
+<span class="n">Deserialization</span><span class="o">:</span>
+    <span class="n">MessagePack</span> <span class="n">formats</span> <span class="o">(</span><span class="n">byte</span> <span class="n">array</span><span class="o">)</span>
+    <span class="o">--&gt;</span>  <span class="n">MessagePack</span> <span class="n">type</span> <span class="n">system</span>
+    <span class="o">--&gt;</span>  <span class="n">Application</span> <span class="n">objects</span>
+</pre></div>
+
+
+<p>本文档描述了 MessagePack 类型系统，MessagePack 格式及它们之间的转换。</p>
+<h3>Type system</h3>
+<ul>
+<li>类型<ul>
+<li><strong>Integer</strong> 表示整数</li>
+<li><strong>Nil</strong> 表示 nil</li>
+<li><strong>Boolean</strong> 表示 true 或 false</li>
+<li><strong>Float</strong> 表示 IEEE 754 双精度浮点数包含 NaN  Infinity</li>
+<li><strong>Raw</strong><ul>
+<li><strong>String</strong>  扩展 Raw 类型，表示 UTF-8 字符串</li>
+<li><strong>Binary</strong> 扩展 Raw 类型，表示字节数组</li>
+</ul>
+</li>
+<li><strong>Array</strong> 表示一个对象序列</li>
+<li><strong>Map</strong> 表示 Key/Value 结构的对象</li>
+<li><strong>Extension</strong> 表示类型信息元组和字节数组，其中类型信息是一个整数，其含义由应用程序或 MessagePack 规范定义</li>
+<li><strong>Timestamp</strong> 与时区无关的时间点，最大精度为纳秒。</li>
+</ul>
+</li>
+</ul>
+<h4>Limitation</h4>
+<ul>
+<li>Integer 对象的范围是 <code>-(2^63)</code> 到 <code>(2^64)-1</code></li>
+<li>Binary 对象的最大长度是 <code>(2^32)-1</code></li>
+<li>String 对象的最大字节大小是 <code>(2^32)-1</code></li>
+<li>String 对象可以包含无效的字节序列，并且反序列化的行为取决于实际实现<ul>
+<li>Deserializer 应提供获取原始字节数组的功能，以便可以让应用程序决定如何处理该对象</li>
+</ul>
+</li>
+<li>Array 对象的最大元素数目是 <code>(2^32)-1</code></li>
+<li>Map 对象的最大元素数量是 <code>(2^32）-1</code></li>
+</ul>
+<h4>Extension types</h4>
+<p>MessagePack 允许应用使用 Extension 类型去定义自定义类型。Extension 类型由整数和字节数组构成，其中整数表示类型，字节数组用于表示数据。</p>
+<p>应用可以分配 <code>0</code> 到 <code>127</code> 以存储自定义类型信息。一个示例用法是应用定义 <code>type = 0</code> 作为应用唯一的类型系统，并且在 payload 中存储类型的名称和值。(Applications can assign <code>0</code> to <code>127</code> to store application-specific type information. An example usage is that application defines <code>type = 0</code> as the application's unique type system, and stores name of a type and values of the type at the payload.)</p>
+<p>MessagePack 保留 <code>-1</code> 到 <code>-128</code> 用于在未来添加预定义类型。添加这些类型来换取更多类型，且不需要在不同的编程环境中使用预共享的静态类型模式。</p>
+<div class="highlight"><pre><span></span>[0, 127]: application-specific types
+[-128, -1]: reserved for predefined types
+</pre></div>
+
+
+<p>由于 Extension 类型的加入，旧的应用可能无法实现全部。但是它们仍能够将其作为一种 Extension Type 进行处理。因此应用可以自主决定是否拒绝未知的 Extension types，接受不透明的数据，或者将其转移到另一个应用中进行处理。</p>
+<p>预定义的 Extension types 如下表，对应的格式定义在 <a href="#formats-timestamp">Formats</a> 一节。</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Timestamp</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<h3>Formats</h3>
+<h4>Overview</h4>
+<table>
+<thead>
+<tr>
+<th>format name</th>
+<th>first byte (in binary)</th>
+<th>first byte (in hex)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>positive fixint</td>
+<td>0xxxxxxx</td>
+<td>0x00 - 0x7f</td>
+</tr>
+<tr>
+<td>fixmap</td>
+<td>1000xxxx</td>
+<td>0x80 - 0x8f</td>
+</tr>
+<tr>
+<td>fixarray</td>
+<td>1001xxxx</td>
+<td>0x90 - 0x9f</td>
+</tr>
+<tr>
+<td>fixstr</td>
+<td>101xxxxx</td>
+<td>0xa0 - 0xbf</td>
+</tr>
+<tr>
+<td>nil</td>
+<td>11000000</td>
+<td>0xc0</td>
+</tr>
+<tr>
+<td>(never used)</td>
+<td>11000001</td>
+<td>0xc1</td>
+</tr>
+<tr>
+<td>false</td>
+<td>11000010</td>
+<td>0xc2</td>
+</tr>
+<tr>
+<td>true</td>
+<td>11000011</td>
+<td>0xc3</td>
+</tr>
+<tr>
+<td>bin 8</td>
+<td>11000100</td>
+<td>0xc4</td>
+</tr>
+<tr>
+<td>bin 16</td>
+<td>11000101</td>
+<td>0xc5</td>
+</tr>
+<tr>
+<td>bin 32</td>
+<td>11000110</td>
+<td>0xc6</td>
+</tr>
+<tr>
+<td>ext 8</td>
+<td>11000111</td>
+<td>0xc7</td>
+</tr>
+<tr>
+<td>ext 16</td>
+<td>11001000</td>
+<td>0xc8</td>
+</tr>
+<tr>
+<td>ext 32</td>
+<td>11001001</td>
+<td>0xc9</td>
+</tr>
+<tr>
+<td>float 32</td>
+<td>11001010</td>
+<td>0xca</td>
+</tr>
+<tr>
+<td>float 64</td>
+<td>11001011</td>
+<td>0xcb</td>
+</tr>
+<tr>
+<td>uint 8</td>
+<td>11001100</td>
+<td>0xcc</td>
+</tr>
+<tr>
+<td>uint 16</td>
+<td>11001101</td>
+<td>0xcd</td>
+</tr>
+<tr>
+<td>uint 32</td>
+<td>11001110</td>
+<td>0xce</td>
+</tr>
+<tr>
+<td>uint 64</td>
+<td>11001111</td>
+<td>0xcf</td>
+</tr>
+<tr>
+<td>int 8</td>
+<td>11010000</td>
+<td>0xd0</td>
+</tr>
+<tr>
+<td>int 16</td>
+<td>11010001</td>
+<td>0xd1</td>
+</tr>
+<tr>
+<td>int 32</td>
+<td>11010010</td>
+<td>0xd2</td>
+</tr>
+<tr>
+<td>int 64</td>
+<td>11010011</td>
+<td>0xd3</td>
+</tr>
+<tr>
+<td>fixext 1</td>
+<td>11010100</td>
+<td>0xd4</td>
+</tr>
+<tr>
+<td>fixext 2</td>
+<td>11010101</td>
+<td>0xd5</td>
+</tr>
+<tr>
+<td>fixext 4</td>
+<td>11010110</td>
+<td>0xd6</td>
+</tr>
+<tr>
+<td>fixext 8</td>
+<td>11010111</td>
+<td>0xd7</td>
+</tr>
+<tr>
+<td>fixext 16</td>
+<td>11011000</td>
+<td>0xd8</td>
+</tr>
+<tr>
+<td>str 8</td>
+<td>11011001</td>
+<td>0xd9</td>
+</tr>
+<tr>
+<td>str 16</td>
+<td>11011010</td>
+<td>0xda</td>
+</tr>
+<tr>
+<td>str 32</td>
+<td>11011011</td>
+<td>0xdb</td>
+</tr>
+<tr>
+<td>array 16</td>
+<td>11011100</td>
+<td>0xdc</td>
+</tr>
+<tr>
+<td>array 32</td>
+<td>11011101</td>
+<td>0xdd</td>
+</tr>
+<tr>
+<td>map 16</td>
+<td>11011110</td>
+<td>0xde</td>
+</tr>
+<tr>
+<td>map 32</td>
+<td>11011111</td>
+<td>0xdf</td>
+</tr>
+<tr>
+<td>negative fixint</td>
+<td>111xxxxx</td>
+<td>0xe0 - 0xff</td>
+</tr>
+</tbody>
+</table>
+<h4>Notation in diagrams</h4>
+<div class="highlight"><pre><span></span>one byte:
++--------+
+|        |
++--------+
+
+a variable number of bytes:
++========+
+|        |
++========+
+
+variable number of objects stored in MessagePack format:
++~~~~~~~~~~~~~~~~~+
+|                 |
++~~~~~~~~~~~~~~~~~+
+</pre></div>
+
+
+<p><code>X</code>，<code>Y</code>，<code>Z</code> 和 <code>A</code> 将会被实际的 bit 所替换。</p>
+<h4>nil format</h4>
+<p>Nil 使用 1 字节存储。</p>
+<div class="highlight"><pre><span></span>nil:
++--------+
+|  0xc0  |
++--------+
+</pre></div>
+
+
+<h4>bool format family</h4>
+<p>Bool 使用 1 字节存储 true 或者 false。</p>
+<div class="highlight"><pre><span></span>false:
++--------+
+|  0xc2  |
++--------+
+
+true:
++--------+
+|  0xc3  |
++--------+
+</pre></div>
+
+
+<h4>int format family</h4>
+<p>Int 格式使用 1, 2, 3, 5, or 9 个字节来存储整数。</p>
+<div class="highlight"><pre><span></span>positive fixnum stores 7-bit positive integer
++--------+
+|0XXXXXXX|
++--------+
+
+negative fixnum stores 5-bit negative integer
++--------+
+|111YYYYY|
++--------+
+
+* 0XXXXXXX is 8-bit unsigned integer
+* 111YYYYY is 8-bit signed integer
+
+uint 8 stores a 8-bit unsigned integer
++--------+--------+
+|  0xcc  |ZZZZZZZZ|
++--------+--------+
+
+uint 16 stores a 16-bit big-endian unsigned integer
++--------+--------+--------+
+|  0xcd  |ZZZZZZZZ|ZZZZZZZZ|
++--------+--------+--------+
+
+uint 32 stores a 32-bit big-endian unsigned integer
++--------+--------+--------+--------+--------+
+|  0xce  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
++--------+--------+--------+--------+--------+
+
+uint 64 stores a 64-bit big-endian unsigned integer
++--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|  0xcf  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
++--------+--------+--------+--------+--------+--------+--------+--------+--------+
+
+int 8 stores a 8-bit signed integer
++--------+--------+
+|  0xd0  |ZZZZZZZZ|
++--------+--------+
+
+int 16 stores a 16-bit big-endian signed integer
++--------+--------+--------+
+|  0xd1  |ZZZZZZZZ|ZZZZZZZZ|
++--------+--------+--------+
+
+int 32 stores a 32-bit big-endian signed integer
++--------+--------+--------+--------+--------+
+|  0xd2  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
++--------+--------+--------+--------+--------+
+
+int 64 stores a 64-bit big-endian signed integer
++--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|  0xd3  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
++--------+--------+--------+--------+--------+--------+--------+--------+--------+
+</pre></div>
+
+
+<h4>float format family</h4>
+<p>Float 格式使用 5 或者 9 个字节进行存储。</p>
+<div class="highlight"><pre><span></span>float 32 stores a floating point number in IEEE 754 single precision floating point number format:
++--------+--------+--------+--------+--------+
+|  0xca  |XXXXXXXX|XXXXXXXX|XXXXXXXX|XXXXXXXX|
++--------+--------+--------+--------+--------+
+
+float 64 stores a floating point number in IEEE 754 double precision floating point number format:
++--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|  0xcb  |YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|
++--------+--------+--------+--------+--------+--------+--------+--------+--------+
+
+where
+* XXXXXXXX_XXXXXXXX_XXXXXXXX_XXXXXXXX is a big-endian IEEE 754 single precision floating point number.
+  Extension of precision from single-precision to double-precision does not lose precision.
+* YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY is a big-endian
+  IEEE 754 double precision floating point number
+</pre></div>
+
+
+<h4>str format family</h4>
+<p>Str 格式使用额外的 1, 2, 3, 或 5 个字节存储字节数组的大小，数据排列在长度的后面</p>
+<div class="highlight"><pre><span></span>fixstr stores a byte array whose length is upto 31 bytes:
++--------+========+
+|101XXXXX|  data  |
++--------+========+
+
+str 8 stores a byte array whose length is upto (2^8)-1 bytes:
++--------+--------+========+
+|  0xd9  |YYYYYYYY|  data  |
++--------+--------+========+
+
+str 16 stores a byte array whose length is upto (2^16)-1 bytes:
++--------+--------+--------+========+
+|  0xda  |ZZZZZZZZ|ZZZZZZZZ|  data  |
++--------+--------+--------+========+
+
+str 32 stores a byte array whose length is upto (2^32)-1 bytes:
++--------+--------+--------+--------+--------+========+
+|  0xdb  |AAAAAAAA|AAAAAAAA|AAAAAAAA|AAAAAAAA|  data  |
++--------+--------+--------+--------+--------+========+
+
+where
+* XXXXX is a 5-bit unsigned integer which represents N
+* YYYYYYYY is a 8-bit unsigned integer which represents N
+* ZZZZZZZZ_ZZZZZZZZ is a 16-bit big-endian unsigned integer which represents N
+* AAAAAAAA_AAAAAAAA_AAAAAAAA_AAAAAAAA is a 32-bit big-endian unsigned integer which represents N
+* N is the length of data
+</pre></div>
+
+
+<h4>bin format family</h4>
+<p>Bin 格式使用额外的 2, 3, 或 5 个字节存储字节数组的大小，数据排列在后面</p>
+<div class="highlight"><pre><span></span>bin 8 stores a byte array whose length is upto (2^8)-1 bytes:
++--------+--------+========+
+|  0xc4  |XXXXXXXX|  data  |
++--------+--------+========+
+
+bin 16 stores a byte array whose length is upto (2^16)-1 bytes:
++--------+--------+--------+========+
+|  0xc5  |YYYYYYYY|YYYYYYYY|  data  |
++--------+--------+--------+========+
+
+bin 32 stores a byte array whose length is upto (2^32)-1 bytes:
++--------+--------+--------+--------+--------+========+
+|  0xc6  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|  data  |
++--------+--------+--------+--------+--------+========+
+
+where
+* XXXXXXXX is a 8-bit unsigned integer which represents N
+* YYYYYYYY_YYYYYYYY is a 16-bit big-endian unsigned integer which represents N
+* ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ is a 32-bit big-endian unsigned integer which represents N
+* N is the length of data
+</pre></div>
+
+
+<h4>array format family</h4>
+<p>数组格式使用额外的 1, 3, 或 5 个字节存储数组长度，元素排列在后面</p>
+<div class="highlight"><pre><span></span>fixarray stores an array whose length is upto 15 elements:
++--------+~~~~~~~~~~~~~~~~~+
+|1001XXXX|    N objects    |
++--------+~~~~~~~~~~~~~~~~~+
+
+array 16 stores an array whose length is upto (2^16)-1 elements:
++--------+--------+--------+~~~~~~~~~~~~~~~~~+
+|  0xdc  |YYYYYYYY|YYYYYYYY|    N objects    |
++--------+--------+--------+~~~~~~~~~~~~~~~~~+
+
+array 32 stores an array whose length is upto (2^32)-1 elements:
++--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+|  0xdd  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|    N objects    |
++--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+
+where
+* XXXX is a 4-bit unsigned integer which represents N
+* YYYYYYYY_YYYYYYYY is a 16-bit big-endian unsigned integer which represents N
+* ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ is a 32-bit big-endian unsigned integer which represents N
+* N is the size of an array
+</pre></div>
+
+
+<h4>map format family</h4>
+<p>Map 格式使用额外的 1, 3, 或 5 个字节存储哈希表的长度，Key/Value 对排列在后面</p>
+<div class="highlight"><pre><span></span>fixmap stores a map whose length is upto 15 elements
++--------+~~~~~~~~~~~~~~~~~+
+|1000XXXX|   N*2 objects   |
++--------+~~~~~~~~~~~~~~~~~+
+
+map 16 stores a map whose length is upto (2^16)-1 elements
++--------+--------+--------+~~~~~~~~~~~~~~~~~+
+|  0xde  |YYYYYYYY|YYYYYYYY|   N*2 objects   |
++--------+--------+--------+~~~~~~~~~~~~~~~~~+
+
+map 32 stores a map whose length is upto (2^32)-1 elements
++--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+|  0xdf  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|   N*2 objects   |
++--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+
+where
+* XXXX is a 4-bit unsigned integer which represents N
+* YYYYYYYY_YYYYYYYY is a 16-bit big-endian unsigned integer which represents N
+* ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ is a 32-bit big-endian unsigned integer which represents N
+* N is the size of a map
+* odd elements in objects are keys of a map(奇数元素是 map 的 key)
+* the next element of a key is its associated value(key 的下一个相邻的元素是其对应的 value)
+</pre></div>
+
+
+<h4>ext format family</h4>
+<p>Ext 格式存储一个整数元组和一个字节数组。</p>
+<div class="highlight"><pre><span></span>fixext 1 stores an integer and a byte array whose length is 1 byte
++--------+--------+--------+
+|  0xd4  |  type  |  data  |
++--------+--------+--------+
+
+fixext 2 stores an integer and a byte array whose length is 2 bytes
++--------+--------+--------+--------+
+|  0xd5  |  type  |       data      |
++--------+--------+--------+--------+
+
+fixext 4 stores an integer and a byte array whose length is 4 bytes
++--------+--------+--------+--------+--------+--------+
+|  0xd6  |  type  |                data               |
++--------+--------+--------+--------+--------+--------+
+
+fixext 8 stores an integer and a byte array whose length is 8 bytes
++--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|  0xd7  |  type  |                                  data                                 |
++--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+
+fixext 16 stores an integer and a byte array whose length is 16 bytes
++--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|  0xd8  |  type  |                                  data                                  
++--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
++--------+--------+--------+--------+--------+--------+--------+--------+
+                              data (cont.)                              |
++--------+--------+--------+--------+--------+--------+--------+--------+
+
+ext 8 stores an integer and a byte array whose length is upto (2^8)-1 bytes:
++--------+--------+--------+========+
+|  0xc7  |XXXXXXXX|  type  |  data  |
++--------+--------+--------+========+
+
+ext 16 stores an integer and a byte array whose length is upto (2^16)-1 bytes:
++--------+--------+--------+--------+========+
+|  0xc8  |YYYYYYYY|YYYYYYYY|  type  |  data  |
++--------+--------+--------+--------+========+
+
+ext 32 stores an integer and a byte array whose length is upto (2^32)-1 bytes:
++--------+--------+--------+--------+--------+--------+========+
+|  0xc9  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|  type  |  data  |
++--------+--------+--------+--------+--------+--------+========+
+
+where
+* XXXXXXXX is a 8-bit unsigned integer which represents N
+* YYYYYYYY_YYYYYYYY is a 16-bit big-endian unsigned integer which represents N
+* ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ is a big-endian 32-bit unsigned integer which represents N
+* N is a length of data
+* type is a signed 8-bit signed integer
+* type &lt; 0 is reserved for future extension including 2-byte type information
+</pre></div>
+
+
+<h4>Timestamp extension type</h4>
+<p><code>-1</code> 被分配到到扩展类型 Timestamp。它定义了3种格式：32位格式，64位格式和96位格式。</p>
+<div class="highlight"><pre><span></span>timestamp 32 stores the number of seconds that have elapsed since 1970-01-01 00:00:00 UTC
+in an 32-bit unsigned integer:
++--------+--------+--------+--------+--------+--------+
+|  0xd6  |   -1   |   seconds in 32-bit unsigned int  |
++--------+--------+--------+--------+--------+--------+
+
+timestamp 64 stores the number of seconds and nanoseconds that have elapsed since 1970-01-01 00:00:00 UTC
+in 32-bit unsigned integers:
++--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|  0xd7  |   -1   |nanoseconds in 30-bit unsigned int |  seconds in 34-bit unsigned int   |
++--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+
+timestamp 96 stores the number of seconds and nanoseconds that have elapsed since 1970-01-01 00:00:00 UTC
+in 64-bit signed integer and 32-bit unsigned integer:
++--------+--------+--------+--------+--------+--------+--------+
+|  0xc7  |   12   |   -1   |nanoseconds in 32-bit unsigned int |
++--------+--------+--------+--------+--------+--------+--------+
++--------+--------+--------+--------+--------+--------+--------+--------+
+                    seconds in 64-bit signed int                        |
++--------+--------+--------+--------+--------+--------+--------+--------+
+</pre></div>
+
+
+<ul>
+<li>Timestamp 32 格式可以表示 [1970-01-01 00:00:00 UTC, 2106-02-07 06:28:16 UTC) 范围内的时间，精确到秒。</li>
+<li>Timestamp 64 格式可以表示 [1970-01-01 00:00:00.000000000 UTC, 2514-05-30 01:53:04.000000000 UTC) 范围内的时间，精确到纳秒。</li>
+<li>Timestamp 96 格式可以表示 [-584554047284-02-23 16:59:44 UTC, 584554051223-11-09 07:00:16.000000000 UTC) 范围内的时间，精确到纳秒。</li>
+<li>Timestamp 64 和 Timestamp 96 的纳秒部分不超过 999999999</li>
+</ul>
+<p>序列化的伪代码：</p>
+<div class="highlight"><pre><span></span>struct timespec {
+    long tv_sec;  // seconds
+    long tv_nsec; // nanoseconds
+} time;
+if ((time.tv_sec &gt;&gt; 34) == 0) {
+    uint64_t data64 = (time.tv_nsec &lt;&lt; 34) | time.tv_sec;
+    if (data64 &amp; 0xffffffff00000000L == 0) {
+        // timestamp 32
+        uint32_t data32 = data64;
+        serialize(0xd6, -1, data32)
+    }
+    else {
+        // timestamp 64
+        serialize(0xd7, -1, data64)
+    }
+}
+else {
+    // timestamp 96
+    serialize(0xc7, 12, -1, time.tv_nsec, time.tv_sec)
+}
+</pre></div>
+
+
+<p>反序列化的伪代码：</p>
+<div class="highlight"><pre><span></span> ExtensionValue value = deserialize_ext_type();
+ struct timespec result;
+ switch(value.length) {
+ case 4:
+     uint32_t data32 = value.payload;
+     result.tv_nsec = 0;
+     result.tv_sec = data32;
+ case 8:
+     uint64_t data64 = value.payload;
+     result.tv_nsec = data64 &gt;&gt; 34;
+     result.tv_sec = data64 &amp; 0x00000003ffffffffL;
+ case 12:
+     uint32_t data32 = value.payload;
+     uint64_t data64 = value.payload + 4;
+     result.tv_nsec = data32;
+     result.tv_sec = data64;
+ default:
+     // error
+ }
+</pre></div>
+
+
+<h3>Serialization: type to format conversion</h3>
+<p>MessagePack serializers 将 MessagePack 类型转换为以下格式：</p>
+<table>
+<thead>
+<tr>
+<th>source types</th>
+<th>output format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integer</td>
+<td>int format family (positive fixint, negative fixint, int 8/16/32/64 or uint 8/16/32/64)</td>
+</tr>
+<tr>
+<td>Nil</td>
+<td>nil</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>bool format family (false or true)</td>
+</tr>
+<tr>
+<td>Float</td>
+<td>float format family (float 32/64)</td>
+</tr>
+<tr>
+<td>String</td>
+<td>str format family (fixstr or str 8/16/32)</td>
+</tr>
+<tr>
+<td>Binary</td>
+<td>bin format family (bin 8/16/32)</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>array format family (fixarray or array 16/32)</td>
+</tr>
+<tr>
+<td>Map</td>
+<td>map format family (fixmap or map 16/32)</td>
+</tr>
+<tr>
+<td>Extension</td>
+<td>ext format family (fixext or ext 8/16/32)</td>
+</tr>
+</tbody>
+</table>
+<p>如果一个对象可以用多种格式进行表示，那么 serializers 应当使用占用字节数目最少的数据格式。</p>
+<h3>Deserialization: format to type conversion</h3>
+<p>MessagePack deserializers 将 MessagePack 格式数据转换为以下类型：</p>
+<table>
+<thead>
+<tr>
+<th>source formats</th>
+<th>output type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>positive fixint, negative fixint, int 8/16/32/64 and uint 8/16/32/64</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>nil</td>
+<td>Nil</td>
+</tr>
+<tr>
+<td>false and true</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>float 32/64</td>
+<td>Float</td>
+</tr>
+<tr>
+<td>fixstr and str 8/16/32</td>
+<td>String</td>
+</tr>
+<tr>
+<td>bin 8/16/32</td>
+<td>Binary</td>
+</tr>
+<tr>
+<td>fixarray and array 16/32</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>fixmap map 16/32</td>
+<td>Map</td>
+</tr>
+<tr>
+<td>fixext and ext 8/16/32</td>
+<td>Extension</td>
+</tr>
+</tbody>
+</table>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://blog.dreamfever.me" target="_blank">Blog</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://github.com/Hanaasagi" target="_blank">GitHub</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2019 Hanaasagi
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://hanaasagi.github.io/weekly-reading/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
