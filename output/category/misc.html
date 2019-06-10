@@ -60,6 +60,34 @@ weekly reading            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="https://hanaasagi.github.io/weekly-reading/014.html">014</a></h2>
+                <div class="summary"><h2>MessagePack specification</h2>
+<p>MessagePack 是一个类似于 JSON 的对象序列化规范。</p>
+<p>MessagePack 中有两个概念：<strong>类型系统</strong> 和 <strong>格式</strong></p>
+<p>序列化是指通过 MessagePack 类型系统将应用对象转换成 MessagePack 格式数据的过程。</p>
+<p>反序列化是指通过 MessagePack 类型系统将 MessagePack 格式数据转换为应用对象的过程。</p>
+<div class="highlight"><pre><span></span><span class="n">Serialization</span><span class="o">:</span>
+    <span class="n">Application</span> <span class="n">objects</span>
+    <span class="o">--&gt;</span>  <span class="n">MessagePack</span> <span class="n">type</span> <span class="n">system</span>
+    <span class="o">--&gt;</span>  <span class="n">MessagePack</span> <span class="n">formats</span> <span class="o">(</span><span class="n">byte</span> <span class="n">array</span><span class="o">)</span>
+
+<span class="n">Deserialization</span><span class="o">:</span>
+    <span class="n">MessagePack</span> <span class="n">formats</span> <span class="o">(</span><span class="n">byte</span> <span class="n">array</span><span class="o">)</span>
+    <span class="o">--&gt;</span>  <span class="n">MessagePack</span> <span class="n">type</span> <span class="n">system</span>
+    <span class="o">--&gt;</span>  <span class="n">Application</span> <span class="n">objects</span>
+</pre></div>
+
+
+<p>本文档描述了 MessagePack 类型系统，MessagePack 格式及它们之间的转换。</p>
+<h3>Type system</h3>
+<ul>
+<li>类型<ul>
+<li><strong>Integer …</strong></li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/014.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="https://hanaasagi.github.io/weekly-reading/013.html">013</a></h2>
                 <div class="summary"><blockquote>
 <p>You shouldn’t mock an API (verb), instead you create a mock (noun) that implements a given API.</p>
@@ -243,21 +271,6 @@ weekly reading            </a>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="https://hanaasagi.github.io/weekly-reading/004.html">004</a></h2>
-                <div class="summary"><p>本周依旧围绕 PyCon 2018 的视频</p>
-<h3><a href="https://www.youtube.com/watch?v=0c46YHS3RY8">Clearer Code at Scale: Static Types at Zulip and Dropbox</a></h3>
-<p>本演讲的主题是通过 static types 使 code 变得 clearer</p>
-<p>演讲者为 Greg Price，曾在 Dropbox 和 Zulip 工作</p>
-<p>视频的 <a href="https://youtu.be/0c46YHS3RY8?t=4m16s">4:16</a> 中解释了为什么需要 static types</p>
-<h4>Work incrementally</h4>
-<p>添加 static types 是一个渐进的过程，从新写的文件/函数开始做起</p>
-<h4>Define a clean build</h4>
-<p>CI 中添加 mypy …</p>
-                    <a class="btn btn-default btn-xs" href="https://hanaasagi.github.io/weekly-reading/004.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev disabled"><a href="#">&laquo;</a></li>
@@ -300,7 +313,7 @@ weekly reading            </a>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2018 Hanaasagi
+         <div class="col-xs-10">&copy; 2019 Hanaasagi
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
